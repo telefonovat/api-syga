@@ -4,7 +4,7 @@ import { AlgorithmRunner } from "../../services/algorithm-runner/algorithm-runne
 class AlgorithmExecutor implements AbstractController {
   async handleRequest(body: { code: string }) {
     const runner = new AlgorithmRunner();
-    runner.run();
+    return runner.run();
   }
 }
 

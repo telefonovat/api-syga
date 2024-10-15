@@ -4,8 +4,8 @@ import { algorithmExecutor } from "../controllers/algorithm/algorithm-executor";
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  algorithmExecutor.handleRequest({ code: "" });
-  res.send("Executing algorithm!");
+  const visualization = await algorithmExecutor.handleRequest({ code: "" });
+  res.json(visualization);
 });
 
 router.get("/", (req, res) => {
