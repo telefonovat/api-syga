@@ -1,0 +1,8 @@
+name: api-continuous-integration
+on: [push]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm audit --omit=dev
