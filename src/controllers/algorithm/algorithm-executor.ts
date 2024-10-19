@@ -1,10 +1,10 @@
 import { AbstractController } from "../abstract-controller";
-import { AlgorithmRunner } from "../../services/algorithm-runner/algorithm-runner";
+import { Algorithm, AlgorithmRunner } from "../../services/algorithm-runner/algorithm-runner";
 
 class AlgorithmExecutor implements AbstractController {
-  async handleRequest(body: { code: string }) {
+  async handleRequest(algorithm: Algorithm) {
     const runner = new AlgorithmRunner();
-    return runner.run();
+    return runner.run(algorithm);
   }
 }
 
