@@ -1,8 +1,9 @@
 import { VisualizationResult } from "src/shared-types/visualization/VisualizationResult";
 
 
-import childProcess from "child_process";
 import { backendAdaptor, LegacyVisualizationResult } from "../adaptors/backend-adaptor";
+
+import { exec } from "../util/exec";
 const safeJsonParse = <T>(str: string) => {
   try {
     const jsonValue: T = JSON.parse(str);
@@ -12,12 +13,6 @@ const safeJsonParse = <T>(str: string) => {
     return undefined;
   }
 };
-const exec = (command: string, options = {}) =>
-  new Promise<{ stdout: string, stderr: string }>((resolve, reject) =>
-    childProcess.exec(command, options, (error, stdout, stderr) =>
-      error ? reject(error) : resolve({ stdout, stderr })
-    )
-  );
 interface Algorithm {
   code: string,
 }

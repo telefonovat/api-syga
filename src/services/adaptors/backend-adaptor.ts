@@ -1,34 +1,10 @@
-import { Edge } from "src/shared-types/visualization/Edge";
-import { Node } from "src/shared-types/visualization/Node";
-import { Frame } from "src/shared-types/visualization/Frame";
+
 import { VisualizationResult } from "src/shared-types/visualization/VisualizationResult";
 import { Component } from "src/shared-types/visualization/Component";
+import { Frame } from "src/shared-types/visualization/Frame";
+import { LegacyFrame, LegacyComponent, LegacyVisualizationResult } from "src/shared-types/visualization/Legacy";
 
-interface LegacyFrame {
-  lineno: number[],
-  console_logs: string,
-  components: LegacyComponent[],
-}
 
-interface LegacyComponent {
-  nodes: Node[],
-  edges: Edge[],
-  style: {
-    node_colors: { [key: Node]: string },
-    edge_colors: { [key: Node]: { [key: Node]: string } },
-  },
-}
-
-export interface LegacyVisualizationResult {
-
-  timestamp: string,
-  res: string,
-  err?: string,
-  alg_time: number,
-  parse_time: number,
-  elapsed: number,
-  frames: LegacyFrame[],
-}
 class BackendAdaptor {
   convertToVisualizationResult(input: LegacyVisualizationResult): VisualizationResult {
     const frames: Frame[] = [];
@@ -46,14 +22,14 @@ class BackendAdaptor {
       }
       frames.push({
         lineNo: legacyFrame.lineno,
-        consoleLogs: legacyFrame.console_logs,
+        consoleLogs: legacyFrame.console_logs ?? "",
         components: components,
       })
     }
     return {
       timestamp: input.timestamp,
       response: input.res,
-      algTime: input.alg_time,
+      algorithmTime: input.alg_time,
       parseTime: input.parse_time,
       elapsed: input.elapsed,
       frames: frames,
