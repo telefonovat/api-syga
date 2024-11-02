@@ -1,4 +1,4 @@
-import { AbstractController } from "../abstract-controller";
+import type { AbstractController } from "../abstract-controller";
 import { Algorithm, AlgorithmRunner } from "../../services/algorithm-runner/algorithm-runner";
 
 class AlgorithmExecutor implements AbstractController {

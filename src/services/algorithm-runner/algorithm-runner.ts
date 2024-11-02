@@ -1,6 +1,4 @@
-import { VisualizationResult } from "src/shared/VisualizationResult";
-import { simpleGraph } from "../../../test/mock/testFrames";
-import { environment } from "../../environment";
+import { VisualizationResult } from "src/shared-types/visualization/VisualizationResult";
 
 
 import childProcess from "child_process";

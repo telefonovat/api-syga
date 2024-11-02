@@ -3,4 +3,4 @@ interface AbstractController {
 
 }
 
-export { type AbstractController }
+export { AbstractController }

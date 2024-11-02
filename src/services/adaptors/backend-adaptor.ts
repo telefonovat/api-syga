@@ -1,8 +1,8 @@
-import { Edge } from "src/shared/Edge";
-import { Node } from "src/shared/Node";
-import { Frame } from "src/shared/Frame";
-import { VisualizationResult } from "src/shared/VisualizationResult";
-import { Component } from "src/shared/Component";
+import { Edge } from "src/shared-types/visualization/Edge";
+import { Node } from "src/shared-types/visualization/Node";
+import { Frame } from "src/shared-types/visualization/Frame";
+import { VisualizationResult } from "src/shared-types/visualization/VisualizationResult";
+import { Component } from "src/shared-types/visualization/Component";
 
 interface LegacyFrame {
   lineno: number[],

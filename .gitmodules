@@ -1,0 +1,4 @@
+[submodule "src/shared-types"]
+	path = src/shared-types
+	url = git@github.com:khel-tan/shared-types-syga.git
+	branch = main
