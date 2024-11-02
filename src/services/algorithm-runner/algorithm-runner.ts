@@ -3,8 +3,6 @@ import { simpleGraph } from "../../../test/mock/testFrames";
 import { environment } from "../../environment";
 
 
-
-
 import childProcess from "child_process";
 import { backendAdaptor, LegacyVisualizationResult } from "../adaptors/backend-adaptor";
 const safeJsonParse = <T>(str: string) => {
