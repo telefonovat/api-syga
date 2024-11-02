@@ -1,7 +1,8 @@
 import { VisualizationResult } from "src/shared-types/visualization/VisualizationResult";
 
 
-import { backendAdaptor, LegacyVisualizationResult } from "../adaptors/backend-adaptor";
+import { backendAdaptor } from "../adaptors/backend-adaptor";
+import { LegacyVisualizationResult } from "src/shared-types/visualization/Legacy";
 
 import { exec } from "../util/exec";
 const safeJsonParse = <T>(str: string) => {
@@ -24,7 +25,7 @@ class AlgorithmRunner {
     const legacyOutput = safeJsonParse<LegacyVisualizationResult>(stdout);
     if (legacyOutput !== undefined) {
 
-      return backendAdaptor.convertToVisualizationResult(legacyOutput);
+      return backendAdaptor.visualizationResult(legacyOutput);
     }
     else {
       throw new Error("Backend sent gibberish");

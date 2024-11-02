@@ -1,5 +1,9 @@
-FROM node
+FROM docker:dind
+
 WORKDIR /app
+
+# Install Node.js using a suitable method for the base image.
+RUN apk add --no-cache nodejs npm
 COPY package.json /app
 RUN npm install
 COPY . /app

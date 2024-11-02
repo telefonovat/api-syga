@@ -2,39 +2,72 @@
 import { VisualizationResult } from "src/shared-types/visualization/VisualizationResult";
 import { Component } from "src/shared-types/visualization/Component";
 import { Frame } from "src/shared-types/visualization/Frame";
-import { LegacyFrame, LegacyComponent, LegacyVisualizationResult } from "src/shared-types/visualization/Legacy";
+import {
+  LegacyVisualizationResult,
+  isLegacyVisualizationResult, isLegacyFrame,
+}
+  from "../../shared-types/visualization/Legacy";
 
 
 class BackendAdaptor {
-  convertToVisualizationResult(input: LegacyVisualizationResult): VisualizationResult {
-    const frames: Frame[] = [];
-    for (const legacyFrame of input.frames) {
-      const components: Component[] = [];
-      for (const legacyComponent of legacyFrame.components) {
-        components.push({
-          nodes: legacyComponent.nodes,
-          edges: legacyComponent.edges,
-          style: {
-            nodeColors: legacyComponent.style.node_colors,
-            edgeColors: legacyComponent.style.edge_colors,
-          }
-        });
+  visualizationResult(input: object): VisualizationResult {
+    try {
+      //Validation of fields
+      if (!isLegacyVisualizationResult(input)) {
+        console.warn("Invalid fields in visualization result from engine");
+        console.log(input);
+        throw Error("Invalid visualization results");
       }
-      frames.push({
-        lineNo: legacyFrame.lineno,
-        consoleLogs: legacyFrame.console_logs ?? "",
-        components: components,
-      })
-    }
-    return {
-      timestamp: input.timestamp,
-      response: input.res,
-      algorithmTime: input.alg_time,
-      parseTime: input.parse_time,
-      elapsed: input.elapsed,
-      frames: frames,
-    }
 
+      const validatedInput = input as LegacyVisualizationResult;
+
+      const frames: Frame[] = [];
+      for (const legacyFrame of input.frames) {
+        if (!isLegacyFrame(legacyFrame)) {
+          console.warn("Invalid fields in visualization frame from engine");
+          throw Error("Invalid visualization frame");
+        }
+        const components: Component[] = [];
+        for (const legacyComponent of legacyFrame.components) {
+          //TODO: validate
+
+          const component: Component = {
+            nodes: [...legacyComponent.nodes],
+            edges: [...legacyComponent.edges],
+            style: {
+              nodeColors: { ...legacyComponent.style.node_colors },
+              edgeColors: { ...legacyComponent.style.edge_colors },
+            }
+          };
+
+          components.push(component);
+        }
+        const frame: Frame = {
+          lineNo: legacyFrame.lineno,
+          consoleLogs: legacyFrame.console_logs ?? "",
+          components: components,
+        }
+        frames.push(frame);
+
+      }
+
+      const result: VisualizationResult = {
+        timestamp: validatedInput.timestamp,
+        response: validatedInput.res,
+        ...validatedInput.err && { errorMessage: validatedInput.err },
+        algorithmTime: validatedInput.alg_time,
+        parseTime: validatedInput.parse_time,
+        elapsed: validatedInput.elapsed,
+        frames: frames,
+
+      }
+      return result;
+    }
+    catch (e: any) {
+
+      throw e;
+
+    }
 
   }
 }
