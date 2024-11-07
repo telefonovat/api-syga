@@ -3,7 +3,7 @@ import { VisualizationResult } from "src/shared-types/visualization/Visualizatio
 
 import { backendAdaptor } from "../adaptors/backend-adaptor";
 import { LegacyVisualizationResult } from "src/shared-types/visualization/Legacy";
-
+import fs from "node:fs";
 import { exec } from "../util/exec";
 const safeJsonParse = <T>(str: string) => {
   try {
@@ -19,11 +19,13 @@ interface Algorithm {
 }
 class AlgorithmRunner {
   async run(algorithm: Algorithm): Promise<VisualizationResult> {
-    const { stdout, stderr } = await exec(this.shellCommand, {});
+    const { stdout, stderr } = await exec(this.getShellCommand(algorithm), {});
 
+    console.log("Outputting");
 
     const legacyOutput = safeJsonParse<LegacyVisualizationResult>(stdout);
     if (legacyOutput !== undefined) {
+      console.log("Sending");
 
       return backendAdaptor.visualizationResult(legacyOutput);
     }
@@ -31,8 +33,16 @@ class AlgorithmRunner {
       throw new Error("Backend sent gibberish");
     }
   }
-  get shellCommand() {
-    return "docker container run --rm -i syga-backend < ./src/services/algorithm-runner/test.json";
+  private dumpAlgorithmJson(algorithm: Algorithm) {
+    fs.writeFile(
+      "./src/services/algorithm-runner/test.json", JSON.stringify(algorithm),
+      (error) => {
+        console.log(`Cannot write file : ${error}`);
+      });
+  }
+  private getShellCommand(algorithm: Algorithm) {
+    return `echo '${JSON.stringify(algorithm).replace(/'/g, "'\\''")}' | 
+            docker container run --rm -i syga-backend`;
   }
 
 
