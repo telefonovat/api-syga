@@ -1,0 +1,6 @@
+{
+  "singleQuote": true,
+  "proseWrap": "never",
+  "printWidth": 70,
+  "htmlWhitespaceSensitivity": "ignore",
+}

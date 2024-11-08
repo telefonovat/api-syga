@@ -1,10 +1,9 @@
-import { VisualizationResult } from "src/shared-types/visualization/VisualizationResult";
+import { VisualizationResult } from 'src/shared-types/visualization/VisualizationResult';
+import { VisualizationRequest } from 'src/shared-types/visualization/VisualizationRequest';
 
-
-import { backendAdaptor } from "../adaptors/backend-adaptor";
-import { LegacyVisualizationResult } from "src/shared-types/visualization/Legacy";
-import fs from "node:fs";
-import { exec } from "../util/exec";
+import { backendAdaptor } from '../adaptors/backend-adaptor';
+import { LegacyVisualizationResult } from 'src/shared-types/visualization/Legacy';
+import { exec } from '../util/exec';
 const safeJsonParse = <T>(str: string) => {
   try {
     const jsonValue: T = JSON.parse(str);
@@ -14,38 +13,30 @@ const safeJsonParse = <T>(str: string) => {
     return undefined;
   }
 };
-interface Algorithm {
-  code: string,
-}
 class AlgorithmRunner {
-  async run(algorithm: Algorithm): Promise<VisualizationResult> {
-    const { stdout, stderr } = await exec(this.getShellCommand(algorithm), {});
+  async run(
+    visualizationRequest: VisualizationRequest,
+  ): Promise<VisualizationResult> {
+    const { stdout, stderr } = await exec(
+      this.getShellCommand(visualizationRequest),
+      {},
+    );
 
-    console.log("Outputting");
-
-    const legacyOutput = safeJsonParse<LegacyVisualizationResult>(stdout);
+    //Legacy output format by previous developer
+    const legacyOutput =
+      safeJsonParse<LegacyVisualizationResult>(stdout);
     if (legacyOutput !== undefined) {
-      console.log("Sending");
-
       return backendAdaptor.visualizationResult(legacyOutput);
-    }
-    else {
-      throw new Error("Backend sent gibberish");
+    } else {
+      throw new Error('Backend sent gibberish');
     }
   }
-  private dumpAlgorithmJson(algorithm: Algorithm) {
-    fs.writeFile(
-      "./src/services/algorithm-runner/test.json", JSON.stringify(algorithm),
-      (error) => {
-        console.log(`Cannot write file : ${error}`);
-      });
-  }
-  private getShellCommand(algorithm: Algorithm) {
-    return `echo '${JSON.stringify(algorithm).replace(/'/g, "'\\''")}' | 
+  private getShellCommand(
+    visualizationRequest: VisualizationRequest,
+  ) {
+    return `echo '${JSON.stringify(visualizationRequest).replace(/'/g, "'\\''")}' | 
             docker container run --rm -i syga-backend`;
   }
-
-
 }
 
-export { AlgorithmRunner, Algorithm };
+export { AlgorithmRunner };
