@@ -1,13 +1,29 @@
-import express from "express"
-import { getAlgorithm } from "../services/database/index";
+import express from 'express';
+import { algorithmRetriever } from '../services/database';
 
 const router = express.Router();
 
+router.get(
+  '/:namespace/:slug/:version',
+  async (request, response) => {
+    const slug = request.params.slug;
+    const namespace = request.params.namespace;
+    const version = request.params.version;
 
-router.get("/:slug", async (req, res) => {
-  const slug = req.params.slug;
-  let results = await getAlgorithm(slug);
-  res.send(results).status(200);
-});
+    algorithmRetriever
+      .retrieveOne({
+        slug: slug,
+        namespace: namespace,
+        version: version,
+      })
+      .then((algorithm) => {
+        response.status(200).send(algorithm);
+      })
+      .catch((error) => {
+        console.warn(error);
+        response.status(404).send({ error: error });
+      });
+  },
+);
 
 export { router };
