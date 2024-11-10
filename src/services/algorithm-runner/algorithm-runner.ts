@@ -4,6 +4,7 @@ import { VisualizationRequest } from 'src/shared-types/visualization/Visualizati
 import { backendAdaptor } from '../adaptors/backend-adaptor';
 import { LegacyVisualizationResult } from 'src/shared-types/visualization/Legacy';
 import { exec } from '../util/exec';
+import { config } from '../../../src/config';
 const safeJsonParse = <T>(str: string) => {
   try {
     const jsonValue: T = JSON.parse(str);
@@ -35,7 +36,7 @@ class AlgorithmRunner {
     visualizationRequest: VisualizationRequest,
   ) {
     return `echo '${JSON.stringify(visualizationRequest).replace(/'/g, "'\\''")}' | 
-            docker container run --rm -i syga-backend`;
+            docker container run --rm -i ${config.ENGINE_IMAGE}`;
   }
 }
 

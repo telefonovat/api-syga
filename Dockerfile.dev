@@ -2,11 +2,13 @@ FROM docker:dind
 
 WORKDIR /app
 
+ARG API_PORT
+
 # Install Node.js using a suitable method for the base image.
 RUN apk add --no-cache nodejs npm
 COPY package.json /app
 RUN npm install
 COPY . /app
 
-EXPOSE 6000
+EXPOSE 8000
 CMD ["npm", "run", "dev"]

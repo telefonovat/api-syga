@@ -1,18 +1,17 @@
+import express, { json } from 'express';
+import cors from 'cors';
 
-import express, { json } from "express";
-import cors from "cors";
+import { config } from './config';
 
-import { config } from "./config";
+import { router } from './routes';
 
-import { router } from "./routes";
-
-const app = express()
+const app = express();
 
 app.use(json());
 app.use(cors());
 
 app.use(router);
 
-app.listen(config.port, () => {
-  console.log(`Example app listening on port ${config.port}`)
-})
+app.listen(config.PORT, () => {
+  console.log(`Example app listening on port ${config.PORT}`);
+});

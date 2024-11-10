@@ -35,10 +35,8 @@ describe('Algorithm Retriever', () => {
       findOne: jest.fn().mockResolvedValue(mockAlgorithm),
     } as unknown as Collection<Document>;
     database.getCollection.mockReturnValue(mockCollection);
-
     const result =
       await algorithmRetriever.retrieveOne(mockRetrievalInfo);
-
     expect(result).toEqual(mockAlgorithm);
     expect(database.getCollection).toHaveBeenCalledWith('algorithms');
     expect(mockCollection.findOne).toHaveBeenCalledWith(
