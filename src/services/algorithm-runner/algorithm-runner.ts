@@ -5,6 +5,7 @@ import { backendAdaptor } from '../adaptors/backend-adaptor';
 import { LegacyVisualizationResult } from 'src/shared-types/visualization/Legacy';
 import { exec } from '../util/exec';
 import { config } from '../../../src/config';
+import util from 'util';
 const safeJsonParse = <T>(str: string) => {
   try {
     const jsonValue: T = JSON.parse(str);
@@ -24,6 +25,7 @@ class AlgorithmRunner {
     );
 
     //Legacy output format by previous developer
+    console.log(util.inspect(stdout, { depth: 10 }));
     const legacyOutput =
       safeJsonParse<LegacyVisualizationResult>(stdout);
     if (legacyOutput !== undefined) {
