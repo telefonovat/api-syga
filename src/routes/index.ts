@@ -5,7 +5,7 @@ import express from 'express';
 
 const router = express.Router();
 
-router.use('/community/algorithms', databaseRouter);
+// router.use('/community/algorithms', databaseRouter);
 router.use('/algorithm/execute', algorithmExecuteRouter);
 
 export { router };
