@@ -24,6 +24,7 @@ class AlgorithmRunner {
       {},
     );
 
+    console.log('Huh');
     //Legacy output format by previous developer
     console.log(util.inspect(stdout, { depth: 10 }));
     const legacyOutput =
