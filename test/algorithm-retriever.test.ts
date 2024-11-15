@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb';
-import { Database } from '../src/services/database/Database';
+import { Database } from '../src/services/database/UserDatabase';
 import { AlgorithmRetriever } from '../src/services/database/algorithm-retriever';
 
 import util from 'util';

@@ -14,7 +14,8 @@
     "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "express": "^4.21.1",
-    "mongodb": "^6.9.0"
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.8.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
