@@ -2,8 +2,6 @@ import express from 'express';
 
 const router = express.Router();
 
-router.post('/', async (request, response) => {
-  response.sendStatus(404);
-});
+router.post('/register`', async (request, response) => {});
 
 export { router };

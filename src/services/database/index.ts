@@ -1,10 +1,14 @@
 import { AlgorithmRetriever } from './algorithm-retriever';
-import { Database } from './Database';
+import { UserDatabase } from './UserDatabase';
 import { uri } from './secret';
+import { config } from 'src/config';
 
 const DB_NAME: string = 'syga';
 
-const database = new Database(uri, DB_NAME);
-const algorithmRetriever = new AlgorithmRetriever(database);
+if (!config.MONGODB_URL) {
+  throw new Error('Mongodb connection string is empty...');
+}
 
-export { algorithmRetriever };
+const userDatabase = new UserDatabase(config.MONGODB_URL);
+
+export { userDatabase };

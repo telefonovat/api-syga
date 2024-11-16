@@ -1,4 +1,5 @@
-import { Schema, model, connect } from 'mongoose';
+import mongoose, { Schema, model, connect } from 'mongoose';
+import { config } from 'src/config';
 import { DatabaseError } from 'src/errors/DatabaseErrors';
 import { UnimplementedError } from 'src/errors/UtilityErrorTypes';
 
@@ -6,14 +7,14 @@ const userRoles = ['student', 'admin'] as const;
 
 interface User {
   name: string;
-  email: string;
+  password: string;
   role: (typeof userRoles)[number];
 }
 
 //REMINDER: Mongoose adds an _id field by default
 const userSchema = new Schema<User>({
   name: { type: String, required: true },
-  email: { type: String, required: true },
+  password: { type: String, required: true },
   role: {
     type: String,
     required: true,
@@ -41,10 +42,18 @@ const UserModel = model<User>('User', userSchema);
  *   - concerns
  *    + multiple concurrent logins
  */
-class UserDatabase {
+export class UserDatabase {
   private databaseUrl_;
   constructor(databaseUrl: string) {
     this.databaseUrl_ = databaseUrl;
+
+    if (!this.databaseUrl_) {
+      throw new Error('Mongodb connection string is empty...');
+    }
+    mongoose
+      .connect(this.databaseUrl_)
+      .then(() => console.log('Connected...'))
+      .catch((error) => console.warn(error));
   }
 
   async createUser(user: User) {

@@ -7,6 +7,6 @@ const router = express.Router();
 
 // router.use('/community/algorithms', databaseRouter);
 router.use('/algorithm/execute', algorithmExecuteRouter);
-router.use('/login', userRouter);
+router.use('/users', userRouter);
 
 export { router };
