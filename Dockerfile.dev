@@ -3,6 +3,8 @@ FROM docker:dind
 WORKDIR /app
 
 ARG API_PORT
+ARG MONGODB_URL
+ARG DB_NAME
 
 # Install Node.js using a suitable method for the base image.
 RUN apk add --no-cache nodejs npm

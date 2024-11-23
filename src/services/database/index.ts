@@ -1,7 +1,5 @@
-import { AlgorithmRetriever } from './algorithm-retriever';
 import { UserDatabase } from './UserDatabase';
-import { uri } from './secret';
-import { config } from 'src/config';
+import { config } from '../../config';
 
 const DB_NAME: string = 'syga';
 
