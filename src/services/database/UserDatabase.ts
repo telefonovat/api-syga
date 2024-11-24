@@ -13,7 +13,7 @@ export interface User {
 }
 
 //REMINDER: Mongoose adds an _id field by default
-const userSchema = new Schema<User>(
+const UserSchema = new Schema<User>(
   {
     username: { type: String, unique: true, required: true },
     email: { type: String, required: true },
@@ -26,7 +26,7 @@ const userSchema = new Schema<User>(
   { collection: 'users' },
 );
 
-const UserModel = model<User>('User', userSchema);
+const UserModel = model<User>('User', UserSchema);
 
 /*
  * DEV_INTENT:
@@ -49,6 +49,7 @@ const UserModel = model<User>('User', userSchema);
 export class UserDatabase {
   private databaseUrl_: string;
   private isInitialized_: boolean = false;
+
   constructor(databaseUrl: string) {
     this.databaseUrl_ = databaseUrl;
 
@@ -56,39 +57,15 @@ export class UserDatabase {
       throw new Error('Mongodb connection string is empty...');
     }
     console.log(`URL: ${this.databaseUrl_}`);
-    // mongoose
-    //   .connect(this.databaseUrl_, {
-    //     dbName: config.DB_NAME,
-    //   })
-    //   .then(() => {
-    //     console.log('Connected...');
-    //
-    //     const user = new UserModel({
-    //       username: 'Jack',
-    //       email: 'jack@gmail.com',
-    //       role: 'student',
-    //     });
-    //
-    //     user
-    //       .save()
-    //       .then(() => console.log('Saved!'))
-    //       .catch((error) =>
-    //         console.warn(`User save failed : ${error}`),
-    //       );
-    //   })
-    //   .catch((error) =>
-    //     console.warn(
-    //       `Connection failed :  ${error} -> ${this.databaseUrl_}`,
-    //     ),
-    //   );
   }
-  async initialize() {
+
+  async initialize(dbName: string) {
     if (this.isInitialized_) {
       return;
     }
     try {
       mongoose.connect(this.databaseUrl_, {
-        dbName: config.DB_NAME,
+        dbName: dbName,
       });
       console.log(`Successfully connected to ${config.DB_NAME}`);
       this.isInitialized_ = true;
@@ -112,11 +89,13 @@ export class UserDatabase {
     }
 
     const mongooseUser = new UserModel(user);
-    console.log(util.inspect(user, { depth: 10 }));
 
-    mongooseUser
-      .save()
-      .then(() => console.log('User successfully saved'));
+    try {
+      await mongooseUser.save();
+      console.log('User saved!');
+    } catch (e: any) {
+      throw new Error('User save failed!');
+    }
   }
 
   private async isUsernameFree(username: string): Promise<boolean> {

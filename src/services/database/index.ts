@@ -8,5 +8,6 @@ if (!config.MONGODB_URL) {
 }
 
 const userDatabase = new UserDatabase(config.MONGODB_URL);
+userDatabase.initialize(config.DB_NAME);
 
 export { userDatabase };
