@@ -11,8 +11,8 @@ router.post('/register', async (request, response) => {
     .then(() => {
       response.status(201).send('User successfully registered');
     })
-    .catch(() => {
-      console.error('Cannot register!');
+    .catch((error) => {
+      console.error(`Cannot register : ${error}`);
       response.status(422).send('User registration failed!');
     });
 });

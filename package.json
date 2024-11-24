@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/mongodb": "^4.0.6",
+    "bcryptjs": "^2.4.3",
     "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "express": "^4.21.1",

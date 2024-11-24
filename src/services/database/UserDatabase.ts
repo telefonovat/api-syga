@@ -1,14 +1,15 @@
-import mongoose, { Schema, model, connect } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import { DatabaseError } from '../../errors/DatabaseErrors';
 import { UnimplementedError } from '../../errors/UtilityErrorTypes';
-import util from 'util';
 import { config } from '../../config';
+import { compareSync, hashSync, genSaltSync } from 'bcryptjs';
 
 const userRoles = ['student', 'admin'] as const;
 
 export interface User {
   username: string;
   email: string;
+  password: string;
   role: (typeof userRoles)[number];
 }
 
@@ -17,6 +18,7 @@ const UserSchema = new Schema<User>(
   {
     username: { type: String, unique: true, required: true },
     email: { type: String, required: true },
+    password: { type: String, required: true },
     role: {
       type: String,
       required: true,
@@ -25,6 +27,30 @@ const UserSchema = new Schema<User>(
   },
   { collection: 'users' },
 );
+UserSchema.pre('save', function (next) {
+  const user = this;
+  if (!this.isModified('password')) {
+    return next();
+  }
+
+  try {
+    const salt = genSaltSync(10);
+    const hash = hashSync(user.password, salt);
+
+    user.password = hash;
+    next();
+  } catch (error: any) {
+    console.log(error);
+    return next(error);
+  }
+});
+
+UserSchema.methods.comparePassword = (
+  candidatePassword: string,
+  hashInDb: string,
+): boolean => {
+  return compareSync(candidatePassword, hashInDb);
+};
 
 const UserModel = model<User>('User', UserSchema);
 
