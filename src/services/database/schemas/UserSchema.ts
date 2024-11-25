@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Document, Schema, model } from 'mongoose';
 import { compareSync, hashSync, genSaltSync } from 'bcryptjs';
 
 const userRoles = ['student', 'admin'] as const;
@@ -11,7 +11,14 @@ export interface User {
 }
 
 //REMINDER: Mongoose adds an _id field by default
-const UserSchema = new Schema<User>(
+
+interface UserDocument extends User, Document {
+  comparePasswords(
+    candidatePassword: string,
+    hashInDb: string,
+  ): boolean;
+}
+const UserSchema = new Schema<UserDocument>(
   {
     username: { type: String, unique: true, required: true },
     email: { type: String, required: true },
@@ -22,7 +29,9 @@ const UserSchema = new Schema<User>(
       enum: userRoles,
     },
   },
-  { collection: 'users' },
+  {
+    collection: 'users',
+  },
 );
 UserSchema.pre('save', function (next) {
   const user = this;
@@ -49,4 +58,4 @@ UserSchema.methods.comparePassword = (
   return compareSync(candidatePassword, hashInDb);
 };
 
-export const UserModel = model<User>('User', UserSchema);
+export const UserModel = model<UserDocument>('User', UserSchema);

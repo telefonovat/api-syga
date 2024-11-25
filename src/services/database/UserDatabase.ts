@@ -75,6 +75,20 @@ export class UserDatabase {
     }
   }
 
+  async checkPassword(candidateUser: User): Promise<boolean> {
+    const mongooseUser = new UserModel(candidateUser);
+    const userInDb = await UserModel.findOne({
+      username: candidateUser.username,
+    });
+    if (!userInDb) {
+      throw new Error('User does not exists');
+    }
+    return mongooseUser.comparePasswords(
+      candidateUser.password,
+      userInDb.username,
+    );
+  }
+
   private async isUsernameFree(username: string): Promise<boolean> {
     const user = await UserModel.findOne({
       username: username,

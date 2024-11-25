@@ -16,6 +16,7 @@
     "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.9.0",
     "mongoose": "^8.8.1"
   },
@@ -23,6 +24,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/mongodb": "^4.0.6",
     "jest": "^29.7.0",
     "nodemon": "^3.1.7",
