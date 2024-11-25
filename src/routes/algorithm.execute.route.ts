@@ -1,7 +1,6 @@
 import express from 'express';
-import { algorithmExecutor } from '../controllers/algorithm/algorithm-executor';
-import { VisualizationRequest } from 'src/shared-types/visualization/VisualizationRequest';
-import util from 'util';
+import { algorithmExecutor } from '#src/controllers/algorithm/algorithm-executor';
+import { VisualizationRequest } from '#src/shared-types/visualization/VisualizationRequest';
 
 const router = express.Router();
 

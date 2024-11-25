@@ -1,11 +1,11 @@
-import { VisualizationResult } from 'src/shared-types/visualization/VisualizationResult';
-import { Component } from 'src/shared-types/visualization/Component';
-import { Frame } from 'src/shared-types/visualization/Frame';
+import { VisualizationResult } from '#src/shared-types/visualization/VisualizationResult';
+import { Component } from '#src/shared-types/visualization/Component';
+import { Frame } from '#src/shared-types/visualization/Frame';
 import {
   LegacyVisualizationResult,
   isLegacyVisualizationResult,
   isLegacyFrame,
-} from '../../shared-types/visualization/Legacy';
+} from '#src/shared-types/visualization/Legacy';
 
 class BackendAdaptor {
   visualizationResult(input: object): VisualizationResult {

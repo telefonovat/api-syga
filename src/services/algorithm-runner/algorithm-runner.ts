@@ -1,10 +1,10 @@
-import { VisualizationResult } from 'src/shared-types/visualization/VisualizationResult';
-import { VisualizationRequest } from 'src/shared-types/visualization/VisualizationRequest';
+import { VisualizationResult } from '#src/shared-types/visualization/VisualizationResult';
+import { VisualizationRequest } from '#src/shared-types/visualization/VisualizationRequest';
 
-import { backendAdaptor } from '../adaptors/backend-adaptor';
-import { LegacyVisualizationResult } from 'src/shared-types/visualization/Legacy';
-import { exec } from '../util/exec';
-import { config } from '../../../src/config';
+import { backendAdaptor } from '#src/services/adaptors/backend-adaptor';
+import { LegacyVisualizationResult } from '#src/shared-types/visualization/Legacy';
+import { exec } from '#src/services/util/exec';
+import { config } from '#src/config';
 import util from 'util';
 const safeJsonParse = <T>(str: string) => {
   try {
