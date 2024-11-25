@@ -1,5 +1,5 @@
 import { userDatabase } from '#src/services/database';
-import { User } from '#src/services/database/UserDatabase';
+import { User } from '#src/services/database/schemas/UserSchema';
 import { AbstractController } from '../abstract-controller';
 
 class UserRegistrationController implements AbstractController {
