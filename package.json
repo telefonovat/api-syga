@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/app.ts",
   "scripts": {
-    "dev": "node_modules/nodemon/bin/nodemon.js --quiet --watch src src/app.ts",
+    "dev": "node_modules/nodemon/bin/nodemon.js -r tsconfig-paths/register --quiet --watch src src/app.ts",
     "test": "jest"
   },
   "author": "",
@@ -28,6 +28,10 @@
     "nodemon": "^3.1.7",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "util": "^0.12.5"
+  },
+  "imports": {
+    "#src/*": "./src/*"
   }
 }

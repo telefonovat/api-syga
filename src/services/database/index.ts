@@ -1,5 +1,5 @@
 import { UserDatabase } from './UserDatabase';
-import { config } from '../../config';
+import { config } from '#src/config';
 
 const DB_NAME: string = 'syga';
 
