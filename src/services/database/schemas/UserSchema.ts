@@ -51,7 +51,7 @@ UserSchema.pre('save', function (next) {
   }
 });
 
-UserSchema.methods.comparePassword = (
+UserSchema.methods.comparePasswords = (
   candidatePassword: string,
   hashInDb: string,
 ): boolean => {

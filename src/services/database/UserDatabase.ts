@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { DatabaseError } from '../../errors/DatabaseErrors';
 import { UnimplementedError } from '../../errors/UtilityErrorTypes';
 import { config } from '../../config';
+import util from 'util';
 
 import { User, UserModel } from './schemas/UserSchema';
 
@@ -81,8 +82,11 @@ export class UserDatabase {
       username: candidateUser.username,
     });
     if (!userInDb) {
-      throw new Error('User does not exists');
+      throw new Error('User does not exist');
     }
+    console.log(
+      `candidate is ${util.inspect(candidateUser, { depth: 5 })}`,
+    );
     return mongooseUser.comparePasswords(
       candidateUser.password,
       userInDb.username,

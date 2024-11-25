@@ -22,7 +22,7 @@ router.post('/login', async (request, response) => {
   userLoginController
     .login(request.body.user as User)
     .then((jwt) => {
-      response.status(200).json(jwt);
+      response.status(200).json({ token: jwt });
     })
     .catch((error) => {
       response.status(401).send('Log in failed');
