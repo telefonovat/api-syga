@@ -76,6 +76,16 @@ export class UserDatabase {
     }
   }
 
+  async getUser(username: string): Promise<User> {
+    const userInDb = await UserModel.findOne({
+      username: username,
+    });
+    if (!userInDb) {
+      throw new Error('No such user in database');
+    }
+    return userInDb.toObject() as User;
+  }
+
   async checkPassword(
     candidateUser: Pick<User, 'username' | 'password'>,
   ): Promise<boolean> {

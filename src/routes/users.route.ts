@@ -2,6 +2,9 @@ import express from 'express';
 import { User } from '#src/services/database/schemas/UserSchema';
 import { userRegistrationController } from '#src/controllers/users/user-registration-controller';
 import { userLoginController } from '#src/controllers/users/user-login-controller';
+import { userDatabase } from '#src/services/database';
+
+import jwt, { decode, Jwt } from 'jsonwebtoken';
 
 const router = express.Router();
 
@@ -33,6 +36,35 @@ router.post('/login', async (request, response) => {
       } else {
         response.status(401).send({ error: 'Unknown error' });
       }
+    });
+});
+
+router.get('/:username', async (request, response) => {
+  if (!request.body?.token) {
+    response.status(400).json({ error: 'No JWT token' });
+    return;
+  }
+  interface JwtPayload {
+    username: string;
+    role: 'admin' | 'student';
+  }
+  const { username } = jwt.verify(
+    request.body.token,
+    'hiiamphone',
+  ) as JwtPayload;
+
+  if (request.params.username !== username) {
+    response.status(403).json({ error: 'Invalid token' });
+    return;
+  }
+
+  userDatabase
+    .getUser(username)
+    .then((user) => {
+      response.status(200).json({ user: user });
+    })
+    .catch((error) => {
+      response.status(404).json({ error: error });
     });
 });
 
