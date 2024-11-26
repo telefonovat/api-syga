@@ -8,13 +8,13 @@ interface UserJWT {
   role: User['role'];
 }
 class UserLoginController implements AbstractController {
-  async login(user: User) {
-    if (!userDatabase.checkPassword(user)) {
-      throw new Error('Log in unsuccessful');
+  async login(user: Pick<User, 'username' | 'password'>) {
+    if (!(await userDatabase.checkPassword(user))) {
+      throw new Error('Wrong password');
     }
     const payload: UserJWT = {
       username: user.username,
-      role: user.role,
+      role: 'student',
     };
     const token = jwt.sign(payload, 'hiiamphone');
 

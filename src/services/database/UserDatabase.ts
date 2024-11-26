@@ -76,7 +76,9 @@ export class UserDatabase {
     }
   }
 
-  async checkPassword(candidateUser: User): Promise<boolean> {
+  async checkPassword(
+    candidateUser: Pick<User, 'username' | 'password'>,
+  ): Promise<boolean> {
     const mongooseUser = new UserModel(candidateUser);
     const userInDb = await UserModel.findOne({
       username: candidateUser.username,
@@ -89,7 +91,7 @@ export class UserDatabase {
     );
     return mongooseUser.comparePasswords(
       candidateUser.password,
-      userInDb.username,
+      userInDb.password,
     );
   }
 

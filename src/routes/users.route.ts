@@ -5,6 +5,8 @@ import { userLoginController } from '#src/controllers/users/user-login-controlle
 
 const router = express.Router();
 
+// Accepts every field from UserSchema except role
+// The role is assigned on the server side
 router.post('/register', async (request, response) => {
   console.log(`Registering : ${request.body.user}`);
   userRegistrationController
@@ -18,14 +20,19 @@ router.post('/register', async (request, response) => {
     });
 });
 
+//Accepts username and password
 router.post('/login', async (request, response) => {
   userLoginController
-    .login(request.body.user as User)
+    .login(request.body.user as Omit<User, 'role'>)
     .then((jwt) => {
       response.status(200).json({ token: jwt });
     })
     .catch((error) => {
-      response.status(401).send('Log in failed');
+      if (error instanceof Error) {
+        response.status(401).send({ error: error.message });
+      } else {
+        response.status(401).send({ error: 'Unknown error' });
+      }
     });
 });
 
