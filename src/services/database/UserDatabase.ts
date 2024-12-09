@@ -5,6 +5,7 @@ import { config } from '../../config';
 import util from 'util';
 
 import { User, UserModel } from './schemas/UserSchema';
+import { Algorithm, AlgorithmModel } from './schemas/AlgorithmSchema';
 
 /*
  * DEV_INTENT:
@@ -84,6 +85,23 @@ export class UserDatabase {
       throw new Error('No such user in database');
     }
     return userInDb.toObject() as User;
+  }
+
+  async saveAlgorithm(
+    username: string,
+    algorithm: Algorithm,
+  ): Promise<void> {
+    console.log(`Saving algorithm for ${username}`);
+    const updateResult = await UserModel.updateOne(
+      {
+        username: username,
+      },
+      {
+        $push: {
+          algorithms: new AlgorithmModel(algorithm),
+        },
+      },
+    );
   }
 
   async checkPassword(

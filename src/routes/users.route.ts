@@ -25,6 +25,7 @@ router.post('/register', async (request, response) => {
 
 //Accepts username and password
 router.post('/login', async (request, response) => {
+  console.log('Logging in');
   userLoginController
     .login(request.body.user as Omit<User, 'role'>)
     .then((jwt) => {
@@ -39,14 +40,47 @@ router.post('/login', async (request, response) => {
     });
 });
 
-router.get('/:username', async (request, response) => {
+interface JwtPayload {
+  username: string;
+  role: 'admin' | 'student';
+}
+router.post('/:username/codes', async (request, response) => {
   if (!request.body?.token) {
     response.status(400).json({ error: 'No JWT token' });
     return;
   }
-  interface JwtPayload {
-    username: string;
-    role: 'admin' | 'student';
+
+  const { username } = jwt.verify(
+    request.body.token,
+    'hiiamphone',
+  ) as JwtPayload;
+
+  if (request.params.username !== username) {
+    response.status(403).json({ error: 'Invalid token' });
+    return;
+  }
+
+  if (!request.body?.code) {
+    response.status(403).json({ error: 'No code attached' });
+    return;
+  }
+  userDatabase
+    .saveAlgorithm(request.params.username, {
+      uuid: 'hello',
+      code: request.body.code,
+    })
+    .then(() => {
+      response.status(200).send('Algorithm saved!');
+    })
+    .catch((error) => {
+      response.status(422).send(`Cannot save algorithm : ${error}`);
+    });
+});
+
+router.get('/:username', async (request, response) => {
+  if (!request.body?.token) {
+    response.status(400).json({ error: 'No JWT token' });
+    return;
   }
   const { username } = jwt.verify(
     request.body.token,

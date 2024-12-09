@@ -1,5 +1,6 @@
 import { Document, Schema, model } from 'mongoose';
 import { compareSync, hashSync, genSaltSync } from 'bcryptjs';
+import { Algorithm, AlgorithmSchema } from './AlgorithmSchema';
 
 const userRoles = ['student', 'admin'] as const;
 
@@ -8,6 +9,7 @@ export interface User {
   email: string;
   password: string;
   role: (typeof userRoles)[number];
+  algorithms: Algorithm[];
 }
 
 //REMINDER: Mongoose adds an _id field by default
@@ -28,6 +30,7 @@ const UserSchema = new Schema<UserDocument>(
       required: true,
       enum: userRoles,
     },
+    algorithms: [AlgorithmSchema],
   },
   {
     collection: 'users',
