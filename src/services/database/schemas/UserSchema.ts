@@ -12,6 +12,7 @@ export interface User {
   algorithms: Algorithm[];
 }
 
+export type UserLoginInfo = Pick<User, 'username' | 'password'>;
 //REMINDER: Mongoose adds an _id field by default
 
 interface UserDocument extends User, Document {

@@ -4,16 +4,11 @@ import { VisualizationRequest } from '#src/shared-types/visualization/Visualizat
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', async (request, response) => {
   const visualization = await algorithmExecutor.handleRequest(
-    req.body as VisualizationRequest,
+    request.body as VisualizationRequest,
   );
-  // console.log(util.inspect(visualization, { depth: 10 }));
-  res.json(visualization);
-});
-
-router.get('/', (req, res) => {
-  res.send('Nothing to get here...');
+  response.json(visualization);
 });
 
 export { router };
