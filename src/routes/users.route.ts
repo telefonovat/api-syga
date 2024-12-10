@@ -5,21 +5,24 @@ import { userLoginController } from '#src/controllers/users/user-login-controlle
 import { userDatabase } from '#src/services/database';
 
 import jwt, { decode, Jwt } from 'jsonwebtoken';
+import { config } from '#src/config';
 
 const router = express.Router();
 
 // Accepts every field from UserSchema except role
 // The role is assigned on the server side
 router.post('/register', async (request, response) => {
-  console.log(`Registering : ${request.body.user}`);
+  const user = request.body.user as User;
   userRegistrationController
-    .register(request.body.user as User)
+    .register({ ...user, role: 'student' })
     .then(() => {
       response.status(201).send('User successfully registered');
     })
     .catch((error) => {
       console.error(`Cannot register : ${error}`);
-      response.status(422).send('User registration failed!');
+      response
+        .status(422)
+        .send(`User registration failed : ${error}`);
     });
 });
 
@@ -52,7 +55,7 @@ router.post('/:username/codes', async (request, response) => {
 
   const { username } = jwt.verify(
     request.body.token,
-    'hiiamphone',
+    config.JWT_SECRET!,
   ) as JwtPayload;
 
   if (request.params.username !== username) {
@@ -84,7 +87,7 @@ router.get('/:username', async (request, response) => {
   }
   const { username } = jwt.verify(
     request.body.token,
-    'hiiamphone',
+    config.JWT_SECRET!,
   ) as JwtPayload;
 
   if (request.params.username !== username) {

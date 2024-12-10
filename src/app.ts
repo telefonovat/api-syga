@@ -4,6 +4,9 @@ import cors from 'cors';
 import { config } from './config';
 
 import { router } from './routes';
+import { validateConfig } from './startup';
+
+validateConfig(config);
 
 const app = express();
 

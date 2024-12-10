@@ -2,6 +2,7 @@ import { userDatabase } from '#src/services/database';
 import { User } from '#src/services/database/schemas/UserSchema';
 import jwt from 'jsonwebtoken';
 import { AbstractController } from '../abstract-controller';
+import { config } from '#src/config';
 
 interface UserJWT {
   username: User['username'];
@@ -16,7 +17,7 @@ class UserLoginController implements AbstractController {
       username: user.username,
       role: 'student',
     };
-    const token = jwt.sign(payload, 'hiiamphone');
+    const token = jwt.sign(payload, config.JWT_SECRET!);
 
     return token;
   }

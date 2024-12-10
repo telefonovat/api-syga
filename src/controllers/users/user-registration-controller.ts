@@ -3,9 +3,9 @@ import { User } from '#src/services/database/schemas/UserSchema';
 import { AbstractController } from '../abstract-controller';
 
 class UserRegistrationController implements AbstractController {
-  async register(user: Omit<User, 'role'>) {
+  async register(user: User) {
     //Allow only student registration for now
-    await userDatabase.createUser({ ...user, role: 'student' });
+    await userDatabase.createUser(user);
     console.log('Done');
   }
 }
