@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import {
   User,
   UserLoginInfo,
-} from '#src/services/database/schemas/UserSchema';
+} from '#src/shared-types/user/Authentication';
 import { userRegistrationController } from '#src/controllers/users/user-registration-controller';
 import { userLoginController } from '#src/controllers/users/user-login-controller';
 import { userDatabase } from '#src/services/database';
@@ -126,12 +126,10 @@ router.post(
         response.status(200).json(successResponse);
       })
       .catch((error) => {
-        response
-          .status(422)
-          .json({
-            ...createErrorResponse('Cannot save algorithm'),
-            errors: error,
-          });
+        response.status(422).json({
+          ...createErrorResponse('Cannot save algorithm'),
+          errors: error,
+        });
       });
   },
 );

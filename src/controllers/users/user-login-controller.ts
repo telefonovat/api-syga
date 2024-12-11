@@ -1,11 +1,11 @@
 import { userDatabase } from '#src/services/database';
-import {
-  User,
-  UserLoginInfo,
-} from '#src/services/database/schemas/UserSchema';
 import jwt from 'jsonwebtoken';
 import { AbstractController } from '../abstract-controller';
 import { config } from '#src/config';
+import {
+  User,
+  UserLoginInfo,
+} from '#src/shared-types/user/Authentication';
 
 interface UserJWT {
   username: User['username'];

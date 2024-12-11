@@ -1,18 +1,10 @@
 import { Document, Schema, model } from 'mongoose';
 import { compareSync, hashSync, genSaltSync } from 'bcryptjs';
 import { Algorithm, AlgorithmSchema } from './AlgorithmSchema';
+import { User } from '#src/shared-types/user/Authentication';
 
 const userRoles = ['student', 'admin'] as const;
 
-export interface User {
-  username: string;
-  email: string;
-  password: string;
-  role: (typeof userRoles)[number];
-  algorithms: Algorithm[];
-}
-
-export type UserLoginInfo = Pick<User, 'username' | 'password'>;
 //REMINDER: Mongoose adds an _id field by default
 
 interface UserDocument extends User, Document {

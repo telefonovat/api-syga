@@ -4,7 +4,8 @@ import { UnimplementedError } from '../../errors/UtilityErrorTypes';
 import { config } from '../../config';
 import util from 'util';
 
-import { User, UserModel } from './schemas/UserSchema';
+import { UserModel } from './schemas/UserSchema';
+import { User } from '#src/shared-types/user/Authentication';
 import { Algorithm, AlgorithmModel } from './schemas/AlgorithmSchema';
 
 /*
