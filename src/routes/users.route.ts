@@ -9,6 +9,7 @@ import { userDatabase } from '#src/services/database';
 
 import jwt, { decode, Jwt } from 'jsonwebtoken';
 import { config } from '#src/config';
+import { APIResponse } from '#src/shared-types/APIResponse';
 
 const router = express.Router();
 
@@ -17,6 +18,13 @@ interface JwtPayload {
   role: 'admin' | 'student';
 }
 
+const createErrorResponse = (errorMessage: string): APIResponse => {
+  return {
+    success: false,
+    message: errorMessage,
+  };
+};
+
 const validateJWT = (
   request: Request,
   response: Response,
@@ -24,7 +32,7 @@ const validateJWT = (
 ) => {
   try {
     if (!request.body?.token) {
-      response.status(400).json({ error: 'No JWT token' });
+      response.status(400).json(createErrorResponse('No JWT Token'));
       return;
     }
 
@@ -34,14 +42,20 @@ const validateJWT = (
     ) as JwtPayload;
 
     if (request.params.username !== username) {
-      response.status(403).json({ error: 'Invalid token' });
+      response
+        .status(403)
+        .json(createErrorResponse('Token structure invalid'));
       return;
     }
 
     response.locals.username = username;
     next();
   } catch (error: any) {
-    response.status(401).json({ error: 'Invalid or expired token' });
+    response
+      .status(401)
+      .json(
+        createErrorResponse('Unknown error while decrypting JWT'),
+      );
     return;
   }
 };
@@ -55,12 +69,16 @@ router.post('/register', async (request, response) => {
   userRegistrationController
     .register({ ...user, role: 'student' })
     .then(() => {
-      response.status(201).json('User successfully registered');
+      const successResponse: APIResponse = {
+        success: true,
+        message: 'User successfully registered',
+      };
+      response.status(201).json(successResponse);
     })
     .catch((error) => {
       response
         .status(422)
-        .json({ error: `User registration failed : ${error}` });
+        .json(createErrorResponse('User registration failed'));
     });
 });
 
@@ -69,10 +87,20 @@ router.post('/login', async (request, response) => {
   userLoginController
     .login(request.body.user as UserLoginInfo)
     .then((jwt) => {
-      response.status(200).json({ token: jwt });
+      const successResponse: APIResponse = {
+        success: true,
+        message: 'Log in successful. Here is a JSON Web token',
+        content: {
+          token: jwt,
+        },
+      };
+      response.status(200).json(successResponse);
     })
     .catch((error) => {
-      response.status(401).json({ error: error });
+      response.status(401).json({
+        ...createErrorResponse('Log in failed'),
+        errors: error,
+      });
     });
 });
 
@@ -91,12 +119,19 @@ router.post(
         code: request.body.code,
       })
       .then(() => {
-        response.status(200).json({ success: 'Algorithm saved!' });
+        const successResponse: APIResponse = {
+          success: true,
+          message: 'Algorithm saved',
+        };
+        response.status(200).json(successResponse);
       })
       .catch((error) => {
         response
           .status(422)
-          .json({ error: `Cannot save algorithm : ${error}` });
+          .json({
+            ...createErrorResponse('Cannot save algorithm'),
+            errors: error,
+          });
       });
   },
 );
@@ -106,10 +141,22 @@ router.get('/:username', validateJWT, async (request, response) => {
   userDatabase
     .getUser(username)
     .then((user) => {
-      response.status(200).json({ user: user });
+      const successResponse: APIResponse = {
+        success: true,
+        message: '',
+        content: {
+          user: user,
+        },
+      };
+      response.status(200).json(successResponse);
     })
     .catch((error) => {
-      response.status(404).json({ error: error });
+      const failureResponse: APIResponse = {
+        success: false,
+        message: '',
+        errors: error,
+      };
+      response.status(404).json(failureResponse);
     });
 });
 
