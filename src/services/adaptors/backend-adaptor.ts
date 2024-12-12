@@ -48,8 +48,6 @@ class BackendAdaptor {
             },
           };
 
-          console.log(component);
-
           components.push(component);
         }
         const frame: Frame = {

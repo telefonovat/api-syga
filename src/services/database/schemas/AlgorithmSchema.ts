@@ -1,9 +1,5 @@
 import { Document, model, Schema } from 'mongoose';
-
-export interface Algorithm {
-  uuid: string;
-  code: string;
-}
+import { Algorithm } from '#src/shared-types/user/Algorithm';
 
 interface AlgorithmDocument extends Document, Algorithm {}
 

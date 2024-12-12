@@ -1,6 +1,6 @@
 import { Document, Schema, model } from 'mongoose';
 import { compareSync, hashSync, genSaltSync } from 'bcryptjs';
-import { Algorithm, AlgorithmSchema } from './AlgorithmSchema';
+import { AlgorithmSchema } from './AlgorithmSchema';
 import { User } from '#src/shared-types/user/Authentication';
 
 const userRoles = ['student', 'admin'] as const;

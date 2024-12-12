@@ -6,7 +6,8 @@ import util from 'util';
 
 import { UserModel } from './schemas/UserSchema';
 import { User } from '#src/shared-types/user/Authentication';
-import { Algorithm, AlgorithmModel } from './schemas/AlgorithmSchema';
+import { Algorithm } from '#src/shared-types/user/Algorithm';
+import { AlgorithmModel } from './schemas/AlgorithmSchema';
 
 /*
  * DEV_INTENT:
