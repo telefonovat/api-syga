@@ -41,8 +41,14 @@ class BackendAdaptor {
             style: {
               nodeColors: { ...legacyComponent.style.node_colors },
               edgeColors: { ...legacyComponent.style.edge_colors },
+              nodeShapes: { ...legacyComponent.style.node_shapes },
+              edgeShapes: { ...legacyComponent.style.edge_shapes },
+              nodeLabels: { ...legacyComponent.style.node_labels },
+              edgeLabels: { ...legacyComponent.style.edge_labels },
             },
           };
+
+          console.log(component);
 
           components.push(component);
         }
