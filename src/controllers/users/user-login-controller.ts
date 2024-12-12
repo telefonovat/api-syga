@@ -21,7 +21,9 @@ class UserLoginController implements AbstractController {
       username: loginInfo.username,
       role: 'student',
     };
-    const token = jwt.sign(payload, config.JWT_SECRET!);
+    const token = jwt.sign(payload, config.JWT_SECRET!, {
+      expiresIn: '3h',
+    });
 
     return token;
   }
