@@ -64,7 +64,7 @@ const validateJWT = (
 // The role is assigned on the server side
 router.post('/register', async (request, response) => {
   const requestBody = request.body;
-  const user = requestBody.content.user as User;
+  const user = requestBody.content as User;
 
   //No admin or teacher privilges
   userRegistrationController
@@ -86,7 +86,7 @@ router.post('/register', async (request, response) => {
 //Accepts username and password
 router.post('/login', async (request, response) => {
   const requestBody = request.body;
-  const loginInfo = requestBody.content.user as UserLoginInfo;
+  const loginInfo = requestBody.content as UserLoginInfo;
   userLoginController
     .login(loginInfo)
     .then((jwt) => {
