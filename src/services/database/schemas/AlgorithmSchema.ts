@@ -8,10 +8,19 @@ export const AlgorithmSchema = new Schema<AlgorithmDocument>({
     type: String,
     required: true,
   },
+  title: {
+    type: String,
+    required: true,
+  },
   code: {
     type: String,
     required: true,
   },
+  tags: [
+    {
+      type: String,
+    },
+  ],
 });
 
 export const AlgorithmModel = model<AlgorithmDocument>(

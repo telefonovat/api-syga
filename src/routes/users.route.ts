@@ -119,11 +119,13 @@ router.post(
       response.status(403).json({ error: 'No code attached' });
       return;
     }
-    const code = requestBody.content.code;
+    const code = requestBody.content.code as string;
     userDatabase
       .saveAlgorithm(username, {
         uuid: 'hello',
-        code: request.body.code,
+        title: code.slice(0, 5),
+        code: code,
+        tags: [],
         isPublic: true,
       })
       .then(() => {
@@ -140,6 +142,11 @@ router.post(
         });
       });
   },
+);
+
+router.get(
+  '/:username/codes/public',
+  async (request, response) => {},
 );
 
 router.get('/:username', validateJWT, async (request, response) => {
