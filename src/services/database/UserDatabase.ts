@@ -106,6 +106,26 @@ export class UserDatabase {
     );
   }
 
+  async getAlgorithms(username: string): Promise<Algorithm[]> {
+    const result = await UserModel.findOne(
+      {
+        username: username,
+      },
+      {
+        algorithms: 1,
+        _id: 0,
+      },
+    ).lean();
+    if (!result) {
+      throw new DatabaseError(
+        `Cannot retrieve algorithms for ${username}`,
+      );
+    }
+    const { algorithms } = result;
+    console.log(algorithms);
+    return [];
+  }
+
   async checkPassword(
     candidateUser: Pick<User, 'username' | 'password'>,
   ): Promise<boolean> {

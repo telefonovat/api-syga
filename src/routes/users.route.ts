@@ -144,10 +144,14 @@ router.post(
   },
 );
 
-router.get(
-  '/:username/codes/public',
-  async (request, response) => {},
-);
+router.get('/:username/codes/public', async (request, response) => {
+  const algorithms = await userDatabase.getAlgorithms(
+    request.params.username,
+  );
+  console.log(algorithms);
+
+  response.status(200);
+});
 
 router.get('/:username', validateJWT, async (request, response) => {
   const username = response.locals.username;
