@@ -44,7 +44,7 @@ const validateJWT = (
     if (request.params.username !== username) {
       response
         .status(403)
-        .json(createErrorResponse('Token structure invalid'));
+        .json(createErrorResponse('User does match the JWT token.'));
       return;
     }
 
@@ -63,7 +63,8 @@ const validateJWT = (
 // Accepts every field from UserSchema except role
 // The role is assigned on the server side
 router.post('/register', async (request, response) => {
-  const user = request.body.user as User;
+  const requestBody = request.body;
+  const user = requestBody.content as User;
 
   //No admin or teacher privilges
   userRegistrationController
@@ -84,8 +85,10 @@ router.post('/register', async (request, response) => {
 
 //Accepts username and password
 router.post('/login', async (request, response) => {
+  const requestBody = request.body;
+  const loginInfo = requestBody.content as UserLoginInfo;
   userLoginController
-    .login(request.body.user as UserLoginInfo)
+    .login(loginInfo)
     .then((jwt) => {
       const successResponse: APIResponse = {
         success: true,
@@ -109,14 +112,19 @@ router.post(
   validateJWT,
   async (request, response) => {
     const username = response.locals.username;
-    if (!request.body?.code) {
+
+    const requestBody = request.body;
+
+    if (!requestBody.content?.code) {
       response.status(403).json({ error: 'No code attached' });
       return;
     }
+    const code = requestBody.content.code;
     userDatabase
       .saveAlgorithm(username, {
         uuid: 'hello',
         code: request.body.code,
+        isPublic: true,
       })
       .then(() => {
         const successResponse: APIResponse = {
