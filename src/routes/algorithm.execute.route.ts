@@ -6,8 +6,11 @@ import { VisualizationRequest } from '#src/shared-types/visualization/Visualizat
 const router = express.Router();
 
 router.post('/', async (request, response) => {
+  const requestBody = request.body;
+  const visualizationRequest =
+    requestBody.content as VisualizationRequest;
   algorithmExecutor
-    .handleRequest(request.body as VisualizationRequest)
+    .handleRequest(visualizationRequest)
     .then((visualization) => {
       const successJSON: APIResponse = {
         success: true,
