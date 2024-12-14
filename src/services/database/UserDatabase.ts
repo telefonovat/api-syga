@@ -122,8 +122,7 @@ export class UserDatabase {
       );
     }
     const { algorithms } = result;
-    console.log(algorithms);
-    return [];
+    return algorithms;
   }
 
   async checkPassword(

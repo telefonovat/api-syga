@@ -148,9 +148,17 @@ router.get('/:username/codes/public', async (request, response) => {
   const algorithms = await userDatabase.getAlgorithms(
     request.params.username,
   );
-  console.log(algorithms);
 
-  response.status(200);
+  const publicAlgorithms = algorithms.filter(
+    (algorithm) => algorithm.isPublic,
+  );
+
+  const responseBody: APIResponse = {
+    success: true,
+    message: '',
+    content: algorithms,
+  };
+  response.status(200).json(responseBody);
 });
 
 router.get('/:username', validateJWT, async (request, response) => {
