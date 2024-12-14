@@ -3,13 +3,15 @@ import {
   User,
   UserLoginInfo,
 } from '#src/shared-types/user/Authentication';
-import { userRegistrationController } from '#src/controllers/users/user-registration-controller';
-import { userLoginController } from '#src/controllers/users/user-login-controller';
 import { userDatabase } from '#src/services/database';
 
 import jwt, { decode, Jwt } from 'jsonwebtoken';
 import { config } from '#src/config';
 import { APIResponse } from '#src/shared-types/APIResponse';
+import {
+  userLoginController,
+  userRegistrationController,
+} from '#src/controllers/users';
 
 const router = express.Router();
 
@@ -62,50 +64,56 @@ const validateJWT = (
 
 // Accepts every field from UserSchema except role
 // The role is assigned on the server side
-router.post('/register', async (request, response) => {
-  const requestBody = request.body;
-  const user = requestBody.content as User;
-
-  //No admin or teacher privilges
-  userRegistrationController
-    .register({ ...user, role: 'student' })
-    .then(() => {
-      const successResponse: APIResponse = {
-        success: true,
-        message: 'User successfully registered',
-      };
-      response.status(201).json(successResponse);
-    })
-    .catch((error) => {
-      response
-        .status(422)
-        .json(createErrorResponse('User registration failed'));
-    });
-});
+router.post(
+  '/register',
+  async (request, response) =>
+    userRegistrationController.handleRequest(request, response),
+  // const requestBody = request.body;
+  // const user = requestBody.content as User;
+  //
+  // //No admin or teacher privilges
+  // userRegistrationController
+  //   .register({ ...user, role: 'student' })
+  //   .then(() => {
+  //     const successResponse: APIResponse = {
+  //       success: true,
+  //       message: 'User successfully registered',
+  //     };
+  //     response.status(201).json(successResponse);
+  //   })
+  //   .catch((error) => {
+  //     response
+  //       .status(422)
+  //       .json(createErrorResponse('User registration failed'));
+  //   });
+);
 
 //Accepts username and password
-router.post('/login', async (request, response) => {
-  const requestBody = request.body;
-  const loginInfo = requestBody.content as UserLoginInfo;
-  userLoginController
-    .login(loginInfo)
-    .then((jwt) => {
-      const successResponse: APIResponse = {
-        success: true,
-        message: 'Log in successful. Here is a JSON Web token',
-        content: {
-          token: jwt,
-        },
-      };
-      response.status(200).json(successResponse);
-    })
-    .catch((error) => {
-      response.status(401).json({
-        ...createErrorResponse('Log in failed'),
-        errors: error,
-      });
-    });
-});
+router.post(
+  '/login',
+  async (request, response) =>
+    userLoginController.handleRequest(request, response),
+  // const requestBody = request.body;
+  // const loginInfo = requestBody.content as UserLoginInfo;
+  // userLoginController
+  //   .login(loginInfo)
+  //   .then((jwt) => {
+  //     const successResponse: APIResponse = {
+  //       success: true,
+  //       message: 'Log in successful. Here is a JSON Web token',
+  //       content: {
+  //         token: jwt,
+  //       },
+  //     };
+  //     response.status(200).json(successResponse);
+  //   })
+  //   .catch((error) => {
+  //     response.status(401).json({
+  //       ...createErrorResponse('Log in failed'),
+  //       errors: error,
+  //     });
+  //   });
+);
 
 router.post(
   '/:username/codes',

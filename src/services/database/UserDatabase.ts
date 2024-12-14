@@ -73,9 +73,8 @@ export class UserDatabase {
 
     try {
       await mongooseUser.save();
-      console.log('User saved!');
-    } catch (e: any) {
-      throw new Error('User save failed!');
+    } catch (error: any) {
+      throw error;
     }
   }
 
