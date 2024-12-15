@@ -8,7 +8,7 @@ export class UserRegistrationController extends AbstractController {
     request: Request,
     response: Response,
   ): Promise<void> {
-    const user = request.body.content.user as User;
+    const user = request.body.content as User;
 
     //No admin or teacher prflowers of warivilges
     userDatabase

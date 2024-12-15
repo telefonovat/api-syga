@@ -1,0 +1,20 @@
+import { Request, Response } from 'express';
+import { AbstractController } from '../abstract-controller';
+import { userDatabase } from '#src/services/database';
+
+export class UserCodesController extends AbstractController {
+  async handleRequest(
+    request: Request,
+    response: Response,
+  ): Promise<void> {
+    const username = request.params.username;
+    userDatabase
+      .getAlgorithms(username)
+      .then((algorithms) => {
+        this.sendResponse(response, 200, algorithms);
+      })
+      .catch((error) => {
+        this.sendError(response, 400, error);
+      });
+  }
+}

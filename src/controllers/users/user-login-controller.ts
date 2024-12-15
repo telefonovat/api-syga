@@ -19,7 +19,7 @@ export class UserLoginController extends AbstractController {
     response: Response,
   ): Promise<void> {
     const requestBody = request.body;
-    const loginInfo = requestBody.content.user as UserLoginInfo;
+    const loginInfo = requestBody.content as UserLoginInfo;
 
     userDatabase
       .checkPassword(loginInfo)

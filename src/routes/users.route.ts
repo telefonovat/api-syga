@@ -9,6 +9,7 @@ import jwt, { decode, Jwt } from 'jsonwebtoken';
 import { config } from '#src/config';
 import { APIResponse } from '#src/shared-types/APIResponse';
 import {
+  userCodesController,
   userLoginController,
   userRegistrationController,
 } from '#src/controllers/users';
@@ -89,32 +90,13 @@ router.post(
 );
 
 //Accepts username and password
-router.post(
-  '/login',
-  async (request, response) =>
-    userLoginController.handleRequest(request, response),
-  // const requestBody = request.body;
-  // const loginInfo = requestBody.content as UserLoginInfo;
-  // userLoginController
-  //   .login(loginInfo)
-  //   .then((jwt) => {
-  //     const successResponse: APIResponse = {
-  //       success: true,
-  //       message: 'Log in successful. Here is a JSON Web token',
-  //       content: {
-  //         token: jwt,
-  //       },
-  //     };
-  //     response.status(200).json(successResponse);
-  //   })
-  //   .catch((error) => {
-  //     response.status(401).json({
-  //       ...createErrorResponse('Log in failed'),
-  //       errors: error,
-  //     });
-  //   });
+router.post('/login', async (request, response) =>
+  userLoginController.handleRequest(request, response),
 );
 
+router.get('/:username/codes', validateJWT, (request, response) =>
+  userCodesController.handleRequest(request, response),
+);
 router.post(
   '/:username/codes',
   validateJWT,
