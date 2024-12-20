@@ -34,13 +34,16 @@ const validateJWT = (
   next: NextFunction,
 ) => {
   try {
-    if (!request.body?.token) {
+    const authorizationHeader = request.get('Authorization');
+    if (authorizationHeader === undefined) {
       response.status(400).json(createErrorResponse('No JWT Token'));
       return;
     }
 
+    const token = authorizationHeader.split(' ')[1];
+
     const { username } = jwt.verify(
-      request.body.token,
+      token,
       config.JWT_SECRET!,
     ) as JwtPayload;
 
