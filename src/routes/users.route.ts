@@ -10,6 +10,7 @@ import { config } from '#src/config';
 import { APIResponse } from '#src/shared-types/APIResponse';
 import {
   userCodesController,
+  userCodesPoster,
   userLoginController,
   userRegistrationController,
 } from '#src/controllers/users';
@@ -83,38 +84,8 @@ router.get('/:username/codes', validateJWT, (request, response) =>
 router.post(
   '/:username/codes',
   validateJWT,
-  async (request, response) => {
-    const username = response.locals.username;
-
-    const requestBody = request.body;
-
-    if (!requestBody.content?.code) {
-      response.status(403).json({ error: 'No code attached' });
-      return;
-    }
-    const code = requestBody.content.code as string;
-    userDatabase
-      .saveAlgorithm(username, {
-        uuid: 'hello',
-        title: code.slice(0, 5),
-        code: code,
-        tags: [],
-        isPublic: true,
-      })
-      .then(() => {
-        const successResponse: APIResponse = {
-          success: true,
-          message: 'Algorithm saved',
-        };
-        response.status(200).json(successResponse);
-      })
-      .catch((error) => {
-        response.status(422).json({
-          ...createErrorResponse('Cannot save algorithm'),
-          errors: error,
-        });
-      });
-  },
+  async (request, response) =>
+    userCodesPoster.handleRequest(request, response),
 );
 
 router.get('/:username/codes/public', async (request, response) => {
