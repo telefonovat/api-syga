@@ -92,7 +92,6 @@ export class UserDatabase {
     username: string,
     algorithm: Algorithm,
   ): Promise<void> {
-    console.log(`Saving algorithm for ${username}`);
     const updateResult = await UserModel.updateOne(
       {
         username: username,

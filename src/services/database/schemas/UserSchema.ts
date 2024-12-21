@@ -25,7 +25,7 @@ const UserSchema = new Schema<UserDocument>(
     },
     algorithms: [
       {
-        type: String,
+        type: AlgorithmSchema,
         _id: false,
       },
     ],

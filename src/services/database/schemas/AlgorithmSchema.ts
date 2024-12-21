@@ -21,6 +21,10 @@ export const AlgorithmSchema = new Schema<AlgorithmDocument>({
       type: String,
     },
   ],
+  isPublic: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 export const AlgorithmModel = model<AlgorithmDocument>(

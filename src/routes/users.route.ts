@@ -68,28 +68,8 @@ const validateJWT = (
 
 // Accepts every field from UserSchema except role
 // The role is assigned on the server side
-router.post(
-  '/register',
-  async (request, response) =>
-    userRegistrationController.handleRequest(request, response),
-  // const requestBody = request.body;
-  // const user = requestBody.content as User;
-  //
-  // //No admin or teacher privilges
-  // userRegistrationController
-  //   .register({ ...user, role: 'student' })
-  //   .then(() => {
-  //     const successResponse: APIResponse = {
-  //       success: true,
-  //       message: 'User successfully registered',
-  //     };
-  //     response.status(201).json(successResponse);
-  //   })
-  //   .catch((error) => {
-  //     response
-  //       .status(422)
-  //       .json(createErrorResponse('User registration failed'));
-  //   });
+router.post('/register', async (request, response) =>
+  userRegistrationController.handleRequest(request, response),
 );
 
 //Accepts username and password
