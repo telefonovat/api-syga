@@ -88,17 +88,30 @@ export class UserDatabase {
     return userInDb.toObject() as User;
   }
 
-  async saveAlgorithm(
-    username: string,
-    algorithm: Algorithm,
-  ): Promise<void> {
-    const updateResult = await UserModel.updateOne(
+  async saveAlgorithm(algorithm: Algorithm): Promise<void> {
+    // const updateResult = await UserModel.updateOne(
+    //   {
+    //     username: username,
+    //   },
+    //   {
+    //     $push: {
+    //       algorithms: new AlgorithmModel(algorithm),
+    //     },
+    //   },
+    // );
+    //
+    //
+    const algorithmInDb = new AlgorithmModel(algorithm);
+    await algorithmInDb.save();
+
+    const username = algorithm.creatorUsername;
+    await UserModel.updateOne(
       {
         username: username,
       },
       {
         $push: {
-          algorithms: new AlgorithmModel(algorithm),
+          algorithmIds: algorithm.uuid,
         },
       },
     );
@@ -110,7 +123,7 @@ export class UserDatabase {
         username: username,
       },
       {
-        algorithms: 1,
+        algorithmIds: 1,
         _id: 0,
       },
     ).lean();
@@ -119,7 +132,19 @@ export class UserDatabase {
         `Cannot retrieve algorithms for ${username}`,
       );
     }
-    const { algorithms } = result;
+
+    const { algorithmIds } = result;
+
+    const algorithms: Algorithm[] = await AlgorithmModel.find(
+      {
+        uuid: { $in: algorithmIds },
+      },
+      {
+        _id: 0,
+        __v: 0,
+      },
+    ).lean();
+
     return algorithms;
   }
 

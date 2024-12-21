@@ -12,7 +12,10 @@ export class UserCodesPoster extends AbstractController {
   ): Promise<void> {
     const username = response.locals.username;
 
-    const algorithm = request.body.content as Omit<Algorithm, 'uuid'>;
+    const algorithm = request.body.content as Omit<
+      Algorithm,
+      'uuid' | 'creatorUsername'
+    >;
 
     if (!algorithm) {
       this.sendError(response, 403, new Error('No code attached'));
@@ -20,8 +23,9 @@ export class UserCodesPoster extends AbstractController {
     }
 
     userDatabase
-      .saveAlgorithm(username, {
+      .saveAlgorithm({
         uuid: uuidv4(),
+        creatorUsername: username,
         ...algorithm,
       })
       .then(() => {

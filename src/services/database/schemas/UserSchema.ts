@@ -23,9 +23,9 @@ const UserSchema = new Schema<UserDocument>(
       required: true,
       enum: userRoles,
     },
-    algorithms: [
+    algorithmIds: [
       {
-        type: AlgorithmSchema,
+        type: String,
         _id: false,
       },
     ],
