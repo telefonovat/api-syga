@@ -117,6 +117,18 @@ export class UserDatabase {
     return result;
   }
 
+  async updateAlgorithm(
+    uuid: string,
+    updatedAlgorithm: Partial<Algorithm>,
+  ): Promise<void> {
+    const result = await AlgorithmModel.findOneAndUpdate(
+      {
+        uuid: uuid,
+      },
+      updatedAlgorithm,
+    );
+  }
+
   async getUserAlgorithms(username: string): Promise<Algorithm[]> {
     const result = await UserModel.findOne(
       {

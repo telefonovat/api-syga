@@ -1,4 +1,7 @@
-import { algorithmGetter } from '#src/controllers/algorithm';
+import {
+  algorithmGetter,
+  algorithmUpdater,
+} from '#src/controllers/algorithm';
 import { config } from '#src/config';
 import { validateJWT } from '#src/middleware';
 import express, { NextFunction, Request, Response } from 'express';
@@ -39,6 +42,10 @@ const checkForJWT = (
 
 router.get('/detail/:uuid', checkForJWT, (request, response) =>
   algorithmGetter.handleRequest(request, response),
+);
+
+router.put('/detail/:uuid', checkForJWT, (request, response) =>
+  algorithmUpdater.handleRequest(request, response),
 );
 
 export { router };
