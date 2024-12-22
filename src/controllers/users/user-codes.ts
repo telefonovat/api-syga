@@ -9,7 +9,7 @@ export class UserCodesController extends AbstractController {
   ): Promise<void> {
     const username = request.params.username;
     userDatabase
-      .getAlgorithms(username)
+      .getUserAlgorithms(username)
       .then((algorithms) => {
         this.sendResponse(response, 200, algorithms);
       })

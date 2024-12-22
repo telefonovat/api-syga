@@ -89,18 +89,6 @@ export class UserDatabase {
   }
 
   async saveAlgorithm(algorithm: Algorithm): Promise<void> {
-    // const updateResult = await UserModel.updateOne(
-    //   {
-    //     username: username,
-    //   },
-    //   {
-    //     $push: {
-    //       algorithms: new AlgorithmModel(algorithm),
-    //     },
-    //   },
-    // );
-    //
-    //
     const algorithmInDb = new AlgorithmModel(algorithm);
     await algorithmInDb.save();
 
@@ -116,8 +104,20 @@ export class UserDatabase {
       },
     );
   }
+  async getAlgorithm(uuid: string): Promise<Algorithm> {
+    const result = await AlgorithmModel.findOne({
+      uuid: uuid,
+    });
+    if (!result) {
+      throw new DatabaseError(
+        `Cannot find algorithm with uuid ${uuid}`,
+      );
+    }
 
-  async getAlgorithms(username: string): Promise<Algorithm[]> {
+    return result;
+  }
+
+  async getUserAlgorithms(username: string): Promise<Algorithm[]> {
     const result = await UserModel.findOne(
       {
         username: username,
