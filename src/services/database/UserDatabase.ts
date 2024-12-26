@@ -117,6 +117,12 @@ export class UserDatabase {
     return result;
   }
 
+  async deleteAlgorithm(uuid: string): Promise<void> {
+    const result = await AlgorithmModel.findOneAndDelete({
+      uuid: uuid,
+    });
+  }
+
   async updateAlgorithm(
     uuid: string,
     updatedAlgorithm: Partial<Algorithm>,

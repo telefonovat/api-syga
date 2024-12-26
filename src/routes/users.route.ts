@@ -50,28 +50,4 @@ router.get('/:username/codes/public', async (request, response) => {
   response.status(200).json(responseBody);
 });
 
-// router.get('/:username', validateJWT, async (request, response) => {
-//   const username = response.locals.username;
-//   userDatabase
-//     .getUser(username)
-//     .then((user) => {
-//       const successResponse: APIResponse = {
-//         success: true,
-//         message: '',
-//         content: {
-//           user: user,
-//         },
-//       };
-//       response.status(200).json(successResponse);
-//     })
-//     .catch((error) => {
-//       const failureResponse: APIResponse = {
-//         success: false,
-//         message: '',
-//         errors: error,
-//       };
-//       response.status(404).json(failureResponse);
-//     });
-// });
-
 export { router };
