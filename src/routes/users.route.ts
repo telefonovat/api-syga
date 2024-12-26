@@ -4,8 +4,8 @@ import { userDatabase } from '#src/services/database';
 import { validateJWT } from '#src/middleware';
 import { APIResponse } from '#src/shared-types/APIResponse';
 import {
-  userCodesController,
-  userCodesPoster,
+  userAlgorithmsGetter,
+  userAlgorithmsPoster,
   userLoginController,
   userRegistrationController,
 } from '#src/controllers/users';
@@ -23,31 +23,37 @@ router.post('/login', async (request, response) =>
   userLoginController.handleRequest(request, response),
 );
 
-router.get('/:username/codes', validateJWT, (request, response) =>
-  userCodesController.handleRequest(request, response),
+router.get(
+  '/:username/algorithms',
+  validateJWT,
+  (request, response) =>
+    userAlgorithmsGetter.handleRequest(request, response),
 );
 router.post(
-  '/:username/codes',
+  '/:username/algorithms',
   validateJWT,
   async (request, response) =>
-    userCodesPoster.handleRequest(request, response),
+    userAlgorithmsPoster.handleRequest(request, response),
 );
 
-router.get('/:username/codes/public', async (request, response) => {
-  const algorithms = await userDatabase.getUserAlgorithms(
-    request.params.username,
-  );
+router.get(
+  '/:username/algorithms/public',
+  async (request, response) => {
+    const algorithms = await userDatabase.getUserAlgorithms(
+      request.params.username,
+    );
 
-  const publicAlgorithms = algorithms.filter(
-    (algorithm) => algorithm.isPublic,
-  );
+    const publicAlgorithms = algorithms.filter(
+      (algorithm) => algorithm.isPublic,
+    );
 
-  const responseBody: APIResponse = {
-    success: true,
-    message: '',
-    content: algorithms,
-  };
-  response.status(200).json(responseBody);
-});
+    const responseBody: APIResponse = {
+      success: true,
+      message: '',
+      content: algorithms,
+    };
+    response.status(200).json(responseBody);
+  },
+);
 
 export { router };

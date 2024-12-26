@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { AbstractController } from '../abstract-controller';
 import { userDatabase } from '#src/services/database';
 
-export class UserCodesController extends AbstractController {
+export class UserAlgorithmsGetter extends AbstractController {
   async handleRequest(
     request: Request,
     response: Response,

@@ -1,11 +1,11 @@
 import {
-  algorithmGetter,
-  algorithmUpdater,
+  algorithmDetailsGetter,
+  algorithmDetailsUpdater,
 } from '#src/controllers/algorithm';
 import { config } from '#src/config';
 import express, { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { userCodesDeleter } from '#src/controllers/users';
+import { userAlgorithmsDeleter } from '#src/controllers/users';
 const router = express.Router();
 
 const checkForJWT = (
@@ -41,15 +41,15 @@ const checkForJWT = (
 };
 
 router.get('/detail/:uuid', checkForJWT, (request, response) =>
-  algorithmGetter.handleRequest(request, response),
+  algorithmDetailsGetter.handleRequest(request, response),
 );
 
 router.put('/detail/:uuid', checkForJWT, (request, response) =>
-  algorithmUpdater.handleRequest(request, response),
+  algorithmDetailsUpdater.handleRequest(request, response),
 );
 
 router.delete('/detail/:uuid', checkForJWT, (request, response) => {
-  userCodesDeleter.handleRequest(request, response);
+  userAlgorithmsDeleter.handleRequest(request, response);
 });
 
 export { router };

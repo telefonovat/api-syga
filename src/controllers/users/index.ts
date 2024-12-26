@@ -1,19 +1,19 @@
-import { UserCodesController } from './user-codes';
-import { UserCodesDeleter } from './user-codes-deleter';
-import { UserCodesPoster } from './user-codes-poster';
+import { UserAlgorithmsGetter } from './user-algorithms-getter';
+import { UserAlgorithmsDeleter } from './user-algorithms-deleter';
+import { UserAlgorithmsPoster } from './user-algorithms-poster';
 import { UserLoginController } from './user-login-controller';
 import { UserRegistrationController } from './user-registration-controller';
 
 const userLoginController = new UserLoginController();
 const userRegistrationController = new UserRegistrationController();
-const userCodesController = new UserCodesController();
-const userCodesPoster = new UserCodesPoster();
-const userCodesDeleter = new UserCodesDeleter();
+const userAlgorithmsGetter = new UserAlgorithmsGetter();
+const userAlgorithmsPoster = new UserAlgorithmsPoster();
+const userAlgorithmsDeleter = new UserAlgorithmsDeleter();
 
 export {
   userLoginController,
   userRegistrationController,
-  userCodesController,
-  userCodesPoster,
-  userCodesDeleter,
+  userAlgorithmsGetter,
+  userAlgorithmsPoster,
+  userAlgorithmsDeleter,
 };

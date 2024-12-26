@@ -3,7 +3,7 @@ import { AbstractController } from '../abstract-controller';
 import { userDatabase } from '#src/services/database';
 import { Algorithm } from '#src/shared-types/user/Algorithm';
 
-export class AlgorithmUpdater extends AbstractController {
+export class AlgorithmDetailsUpdater extends AbstractController {
   async handleRequest(
     request: Request,
     response: Response,

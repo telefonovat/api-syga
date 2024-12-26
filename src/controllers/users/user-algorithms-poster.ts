@@ -5,7 +5,7 @@ import { userDatabase } from '#src/services/database';
 
 import { v4 as uuidv4 } from 'uuid';
 
-export class UserCodesPoster extends AbstractController {
+export class UserAlgorithmsPoster extends AbstractController {
   async handleRequest(
     request: Request,
     response: Response,

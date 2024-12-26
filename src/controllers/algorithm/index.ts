@@ -1,8 +1,12 @@
 import { AlgorithmExecutor } from './algorithm-executor';
-import { AlgorithmGetter } from './algorithm-getter';
-import { AlgorithmUpdater } from './algorithm-updater';
+import { AlgorithmDetailsGetter } from './algorithm-details-getter';
+import { AlgorithmDetailsUpdater } from './algorithm-details-updater';
 const algorithmExecutor = new AlgorithmExecutor();
-const algorithmGetter = new AlgorithmGetter();
-const algorithmUpdater = new AlgorithmUpdater();
+const algorithmDetailsGetter = new AlgorithmDetailsGetter();
+const algorithmDetailsUpdater = new AlgorithmDetailsUpdater();
 
-export { algorithmExecutor, algorithmGetter, algorithmUpdater };
+export {
+  algorithmExecutor,
+  algorithmDetailsGetter,
+  algorithmDetailsUpdater,
+};
