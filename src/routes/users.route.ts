@@ -42,7 +42,7 @@ router.post(
     userAlgorithmsPoster.handleRequest(request, response),
 );
 
-router.get('/search', async (request, response) =>
+router.post('/search', async (request, response) =>
   userSearcher.handleRequest(request, response),
 );
 
