@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { request } from 'express';
 import { userDatabase } from '#src/services/database';
 
 import { validateJWT } from '#src/middleware';
@@ -7,7 +7,9 @@ import {
   userAlgorithmsGetter,
   userAlgorithmsPoster,
   userLoginController,
+  userPublicAlgorithmsGetter,
   userRegistrationController,
+  userSearcher,
 } from '#src/controllers/users';
 
 const router = express.Router();
@@ -29,6 +31,10 @@ router.get(
   (request, response) =>
     userAlgorithmsGetter.handleRequest(request, response),
 );
+
+router.get('/:username/algorithms/public', (request, response) =>
+  userPublicAlgorithmsGetter.handleRequest(request, response),
+);
 router.post(
   '/:username/algorithms',
   validateJWT,
@@ -36,24 +42,8 @@ router.post(
     userAlgorithmsPoster.handleRequest(request, response),
 );
 
-router.get(
-  '/:username/algorithms/public',
-  async (request, response) => {
-    const algorithms = await userDatabase.getUserAlgorithms(
-      request.params.username,
-    );
-
-    const publicAlgorithms = algorithms.filter(
-      (algorithm) => algorithm.isPublic,
-    );
-
-    const responseBody: APIResponse = {
-      success: true,
-      message: '',
-      content: algorithms,
-    };
-    response.status(200).json(responseBody);
-  },
+router.get('/search', async (request, response) =>
+  userSearcher.handleRequest(request, response),
 );
 
 export { router };

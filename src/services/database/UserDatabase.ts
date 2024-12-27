@@ -116,6 +116,22 @@ export class UserDatabase {
 
     return result;
   }
+  async searchUsers(
+    potentialUsername: string,
+  ): Promise<User['username'][]> {
+    const usernames: User['username'][] = [];
+    const users = await UserModel.find(
+      {
+        username: { $regex: potentialUsername, $options: 'i' },
+      },
+      {
+        username: 1,
+        _id: 0,
+      },
+    );
+    users.map((user) => usernames.push(user.username));
+    return usernames;
+  }
 
   async deleteAlgorithm(uuid: string): Promise<void> {
     const result = await AlgorithmModel.findOneAndDelete({
@@ -164,6 +180,16 @@ export class UserDatabase {
     ).lean();
 
     return algorithms;
+  }
+
+  async getUserAlgorithmsPublic(
+    username: string,
+  ): Promise<Algorithm[]> {
+    const publicAlgorithms = (
+      await this.getUserAlgorithms(username)
+    ).filter((algorithm) => algorithm.isPublic);
+    console.log(publicAlgorithms);
+    return publicAlgorithms;
   }
 
   async checkPassword(
