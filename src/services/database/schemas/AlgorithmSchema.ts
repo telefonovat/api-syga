@@ -30,6 +30,9 @@ export const AlgorithmSchema = new Schema<AlgorithmDocument>(
       type: Boolean,
       required: true,
     },
+    isStarred: {
+      type: Boolean,
+    },
   },
   { collection: 'algorithms' },
 );
