@@ -36,6 +36,7 @@ class BackendAdaptor {
           //TODO: validate
 
           const component: Component = {
+            type: legacyComponent.type,
             nodes: [...legacyComponent.nodes],
             edges: [...legacyComponent.edges],
             style: {
