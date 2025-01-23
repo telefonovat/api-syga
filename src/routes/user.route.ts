@@ -1,7 +1,6 @@
 import {
-  userAlgorithmsGetter,
   userPublicAlgorithmsGetter,
-  userAlgorithmsPoster,
+  myAccountInfoController,
 } from '#src/controllers/users';
 import { validateJWT } from '#src/middleware';
 import express from 'express';
@@ -11,7 +10,10 @@ router.get(
   '/:username/algorithms',
   validateJWT,
   (request, response) =>
-    userAlgorithmsGetter.handleRequest(request, response),
+    myAccountInfoController.handleGetAlgorithmsRequest(
+      request,
+      response,
+    ),
 );
 
 router.get('/:username/algorithms/public', (request, response) =>
@@ -21,7 +23,10 @@ router.post(
   '/:username/algorithms',
   validateJWT,
   async (request, response) =>
-    userAlgorithmsPoster.handleRequest(request, response),
+    myAccountInfoController.handlePostAlgorithmRequest(
+      request,
+      response,
+    ),
 );
 
 export { router };

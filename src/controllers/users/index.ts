@@ -1,22 +1,12 @@
-import { UserAlgorithmsGetter } from './user-algorithms-getter';
-import { UserAlgorithmsPoster } from './user-algorithms-poster';
-import { UserLoginController } from './user-login-controller';
-import { UserRegistrationController } from './user-registration-controller';
-import { UserSearcher } from './user-searcher';
+import MyAccountInfoController from './MyAccountInfoController';
 import { UserPublicAlgorithmsGetter } from './user-public-algorithms-getter';
+import UserAuthenticationController from './UserAuthenticationController';
+import UserSearchController from './UserSearchController';
 
-const userLoginController = new UserLoginController();
-const userRegistrationController = new UserRegistrationController();
-const userAlgorithmsGetter = new UserAlgorithmsGetter();
-const userPublicAlgorithmsGetter = new UserPublicAlgorithmsGetter();
-const userAlgorithmsPoster = new UserAlgorithmsPoster();
-const userSearcher = new UserSearcher();
+export const userPublicAlgorithmsGetter =
+  new UserPublicAlgorithmsGetter();
 
-export {
-  userLoginController,
-  userRegistrationController,
-  userAlgorithmsGetter,
-  userPublicAlgorithmsGetter,
-  userAlgorithmsPoster,
-  userSearcher,
-};
+export const userSearchController = new UserSearchController();
+export const userAuthenticationController =
+  new UserAuthenticationController();
+export const myAccountInfoController = new MyAccountInfoController();

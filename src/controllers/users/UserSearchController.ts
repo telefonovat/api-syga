@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
-import { AbstractController } from '../AbstractController';
 import { userDatabase } from '#src/services/database';
+import { AbstractController } from '../AbstractController';
+import { Request, Response } from 'express';
 
-export class UserSearcher extends AbstractController {
-  async handleRequest(
+export default class UserSearchController extends AbstractController {
+  async handleSearchRequest(
     request: Request,
     response: Response,
   ): Promise<void> {

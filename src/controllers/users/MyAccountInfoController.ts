@@ -1,12 +1,26 @@
-import { Request, Response } from 'express';
-import { AbstractController } from '../AbstractController';
-import { Algorithm } from '#src/shared-types/user/Algorithm';
 import { userDatabase } from '#src/services/database';
-
+import { AbstractController } from '../AbstractController';
+import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import { Algorithm } from '#src/shared-types/user/Algorithm';
 
-export class UserAlgorithmsPoster extends AbstractController {
-  async handleRequest(
+export default class MyAccountInfoController extends AbstractController {
+  async handleGetAlgorithmsRequest(
+    request: Request,
+    response: Response,
+  ): Promise<void> {
+    const username = request.params.username;
+    userDatabase
+      .getUserAlgorithms(username)
+      .then((algorithms) => {
+        this.sendResponse(response, 200, algorithms);
+      })
+      .catch((error) => {
+        this.sendError(response, 400, error);
+      });
+  }
+
+  async handlePostAlgorithmRequest(
     request: Request,
     response: Response,
   ): Promise<void> {
