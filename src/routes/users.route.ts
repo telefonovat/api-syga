@@ -25,23 +25,6 @@ router.post('/login', async (request, response) =>
   userLoginController.handleRequest(request, response),
 );
 
-router.get(
-  '/:username/algorithms',
-  validateJWT,
-  (request, response) =>
-    userAlgorithmsGetter.handleRequest(request, response),
-);
-
-router.get('/:username/algorithms/public', (request, response) =>
-  userPublicAlgorithmsGetter.handleRequest(request, response),
-);
-router.post(
-  '/:username/algorithms',
-  validateJWT,
-  async (request, response) =>
-    userAlgorithmsPoster.handleRequest(request, response),
-);
-
 router.post('/search', async (request, response) =>
   userSearcher.handleRequest(request, response),
 );
