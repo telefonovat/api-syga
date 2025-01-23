@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { AbstractController } from '../abstract-controller';
+import { AbstractController } from '../AbstractController';
 import { Algorithm } from '#src/shared-types/user/Algorithm';
 import { userDatabase } from '#src/services/database';
 

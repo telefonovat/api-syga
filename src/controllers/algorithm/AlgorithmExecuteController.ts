@@ -1,10 +1,10 @@
-import { AbstractController } from '../abstract-controller';
+import { AbstractController } from '../AbstractController';
 import { AlgorithmRunner } from '#src/services/algorithm-runner/algorithm-runner';
 import { VisualizationRequest } from '#src/shared-types/visualization/VisualizationRequest';
 import express from 'express';
 
-export class AlgorithmExecutor extends AbstractController {
-  async handleRequest(
+export default class AlgorithmExecuteController extends AbstractController {
+  async handleExecuteRequest(
     request: express.Request,
     response: express.Response,
   ) {

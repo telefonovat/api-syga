@@ -1,7 +1,7 @@
 import { userDatabase } from '#src/services/database';
 import { User } from '#src/shared-types/user/Authentication';
 import { Request, Response } from 'express';
-import { AbstractController } from '../abstract-controller';
+import { AbstractController } from '../AbstractController';
 
 export class UserRegistrationController extends AbstractController {
   async handleRequest(

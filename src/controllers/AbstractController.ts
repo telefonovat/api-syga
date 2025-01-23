@@ -2,11 +2,12 @@ import { APIResponse } from '#src/shared-types/APIResponse';
 import { Response } from 'express';
 import express from 'express';
 type ResponseBodyType = APIResponse['content'];
+
 abstract class AbstractController {
-  public abstract handleRequest(
-    request: express.Request,
-    response: express.Response,
-  ): Promise<void>;
+  // public abstract handleRequest(
+  //   request: express.Request,
+  //   response: express.Response,
+  // ): Promise<void>;
   protected sendResponse<T extends ResponseBodyType>(
     response: Response,
 

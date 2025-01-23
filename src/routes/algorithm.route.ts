@@ -5,12 +5,10 @@
 
 import express, { NextFunction, Request, Response } from 'express';
 import {
-  algorithmDetailsGetter,
-  algorithmDetailsUpdater,
-  algorithmExecutor,
+  algorithmDetailController,
+  algorithmExecuteController,
 } from '#src/controllers/algorithm';
 import jwt from 'jsonwebtoken';
-import { userAlgorithmsDeleter } from '#src/controllers/users';
 import { config } from '#src/config';
 
 const router = express.Router();
@@ -21,7 +19,7 @@ const router = express.Router();
  *
  */
 router.post('/execute', async (request, response) =>
-  algorithmExecutor.handleRequest(request, response),
+  algorithmExecuteController.handleExecuteRequest(request, response),
 );
 
 const checkForJWT = (
@@ -56,16 +54,18 @@ const checkForJWT = (
   }
 };
 
-router.get('/detail/:uuid', checkForJWT, (request, response) =>
-  algorithmDetailsGetter.handleRequest(request, response),
+router.get(
+  '/detail/:uuid',
+  checkForJWT,
+  algorithmDetailController.handleGetRequest,
 );
 
 router.put('/detail/:uuid', checkForJWT, (request, response) =>
-  algorithmDetailsUpdater.handleRequest(request, response),
+  algorithmDetailController.handleUpdateRequest(request, response),
 );
 
-router.delete('/detail/:uuid', checkForJWT, (request, response) => {
-  userAlgorithmsDeleter.handleRequest(request, response);
-});
+router.delete('/detail/:uuid', checkForJWT, (request, response) =>
+  algorithmDetailController.handleDeleteRequest(request, response),
+);
 
 export { router };

@@ -1,6 +1,6 @@
 import { userDatabase } from '#src/services/database';
 import jwt from 'jsonwebtoken';
-import { AbstractController } from '../abstract-controller';
+import { AbstractController } from '../AbstractController';
 import { config } from '#src/config';
 import {
   User,

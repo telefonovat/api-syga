@@ -1,11 +1,6 @@
-import {
-  algorithmDetailsGetter,
-  algorithmDetailsUpdater,
-} from '#src/controllers/algorithm';
 import { config } from '#src/config';
 import express, { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { userAlgorithmsDeleter } from '#src/controllers/users';
 const router = express.Router();
 
 // const checkForJWT = (

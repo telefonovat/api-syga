@@ -1,12 +1,8 @@
-import { AlgorithmExecutor } from './algorithm-executor';
-import { AlgorithmDetailsGetter } from './algorithm-details-getter';
-import { AlgorithmDetailsUpdater } from './algorithm-details-updater';
-const algorithmExecutor = new AlgorithmExecutor();
-const algorithmDetailsGetter = new AlgorithmDetailsGetter();
-const algorithmDetailsUpdater = new AlgorithmDetailsUpdater();
+import AlgorithmDetailController from './AlgorithmDetailController';
+import AlgorithmExecuteController from './AlgorithmExecuteController';
 
-export {
-  algorithmExecutor,
-  algorithmDetailsGetter,
-  algorithmDetailsUpdater,
-};
+export const algorithmExecuteController =
+  new AlgorithmExecuteController();
+
+export const algorithmDetailController =
+  new AlgorithmDetailController();
