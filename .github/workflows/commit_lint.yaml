@@ -1,0 +1,30 @@
+name: Commit lint workflow
+
+on:
+  push
+
+jobs:
+  runs-commit-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Print version
+        run: |
+          npx commitlint --version
+      
+      - name: Set up conventional commitlints
+        run: |
+          npm install conventional-changelog-conventionalcommits
+          npm install commitlint@latest
+
+      - name: Validate all commits from push
+        run: npx commitlint --from HEAD~${{ github.event.push.commits }} --to HEAD --verbose
