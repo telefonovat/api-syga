@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@telefonovat/syga--contract": "^1.1.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/mongodb": "^4.0.6",
     "bcryptjs": "^2.4.3",
