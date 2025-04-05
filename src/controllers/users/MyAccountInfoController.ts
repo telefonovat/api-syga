@@ -2,7 +2,7 @@ import { userDatabase } from '#src/services/database';
 import { AbstractController } from '../AbstractController';
 import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import { Algorithm } from '#src/shared-types/user/Algorithm';
+import { Algorithm } from '@telefonovat/syga--contract';
 
 export default class MyAccountInfoController extends AbstractController {
   async handleGetAlgorithmsRequest(

@@ -1,5 +1,5 @@
 import { Document, model, Schema } from 'mongoose';
-import { Algorithm } from '#src/shared-types/user/Algorithm';
+import { Algorithm } from '@telefonovat/syga--contract';
 
 interface AlgorithmDocument extends Document, Algorithm {}
 

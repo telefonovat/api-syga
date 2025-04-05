@@ -1,6 +1,6 @@
 import { AbstractController } from '../AbstractController';
 import { AlgorithmRunner } from '#src/services/algorithm-runner/algorithm-runner';
-import { VisualizationRequest } from '#src/shared-types/visualization/VisualizationRequest';
+import { VisualizationRequest } from '@telefonovat/syga--contract';
 import express from 'express';
 
 export default class AlgorithmExecuteController extends AbstractController {

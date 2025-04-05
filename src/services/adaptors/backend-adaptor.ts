@@ -1,11 +1,11 @@
-import { VisualizationResult } from '#src/shared-types/visualization/VisualizationResult';
-import { Component } from '#src/shared-types/visualization/Component';
-import { Frame } from '#src/shared-types/visualization/Frame';
+import { VisualizationResult } from '@telefonovat/syga--contract';
+import { Component } from '@telefonovat/syga--contract';
+import { Frame } from '@telefonovat/syga--contract';
 import {
   LegacyVisualizationResult,
   isLegacyVisualizationResult,
   isLegacyFrame,
-} from '#src/shared-types/visualization/Legacy';
+} from '@telefonovat/syga--contract';
 
 class BackendAdaptor {
   visualizationResult(input: object): VisualizationResult {

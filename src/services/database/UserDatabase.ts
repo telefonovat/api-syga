@@ -5,8 +5,8 @@ import { config } from '../../config';
 import util from 'util';
 
 import { UserModel } from './schemas/UserSchema';
-import { User } from '#src/shared-types/user/Authentication';
-import { Algorithm } from '#src/shared-types/user/Algorithm';
+import { User } from '@telefonovat/syga--contract';
+import { Algorithm } from '@telefonovat/syga--contract';
 import { AlgorithmModel } from './schemas/AlgorithmSchema';
 
 /*

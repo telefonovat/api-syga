@@ -1,4 +1,4 @@
-import { APIResponse } from '#src/shared-types/APIResponse';
+import { APIResponse } from '@telefonovat/syga--contract';
 import { Response } from 'express';
 import express from 'express';
 type ResponseBodyType = APIResponse['content'];

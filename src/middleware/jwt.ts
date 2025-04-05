@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { config } from '#src/config';
 import jwt from 'jsonwebtoken';
-import { APIResponse } from '#src/shared-types/APIResponse';
+import { APIResponse } from '@telefonovat/syga--contract';
 
 const createErrorResponse = (errorMessage: string): APIResponse => {
   return {

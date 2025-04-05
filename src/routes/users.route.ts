@@ -2,7 +2,7 @@ import express, { request } from 'express';
 import { userDatabase } from '#src/services/database';
 
 import { validateJWT } from '#src/middleware';
-import { APIResponse } from '#src/shared-types/APIResponse';
+import { APIResponse } from '@telefonovat/syga--contract';
 import {
   userAuthenticationController,
   userSearchController,

@@ -1,7 +1,7 @@
 import { Document, Schema, model } from 'mongoose';
 import { compareSync, hashSync, genSaltSync } from 'bcryptjs';
 import { AlgorithmSchema } from './AlgorithmSchema';
-import { User } from '#src/shared-types/user/Authentication';
+import { User } from '@telefonovat/syga--contract';
 
 const userRoles = ['student', 'admin'] as const;
 

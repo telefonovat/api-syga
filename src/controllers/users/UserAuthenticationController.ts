@@ -1,8 +1,5 @@
 import { userDatabase } from '#src/services/database';
-import {
-  User,
-  UserLoginInfo,
-} from '#src/shared-types/user/Authentication';
+import { User, UserLoginInfo } from '@telefonovat/syga--contract';
 import { AbstractController } from '../AbstractController';
 import { Request, Response } from 'express';
 import { config } from '#src/config';

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { AbstractController } from '../AbstractController';
 import { userDatabase } from '#src/services/database';
-import { Algorithm } from '#src/shared-types/user/Algorithm';
+import { Algorithm } from '@telefonovat/syga--contract';
 
 export default class AlgorithmDetailController extends AbstractController {
   async handleGetRequest(

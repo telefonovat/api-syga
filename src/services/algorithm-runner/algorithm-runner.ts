@@ -1,8 +1,8 @@
-import { VisualizationResult } from '#src/shared-types/visualization/VisualizationResult';
-import { VisualizationRequest } from '#src/shared-types/visualization/VisualizationRequest';
+import { VisualizationResult } from '@telefonovat/syga--contract';
+import { VisualizationRequest } from '@telefonovat/syga--contract';
 
 import { backendAdaptor } from '#src/services/adaptors/backend-adaptor';
-import { LegacyVisualizationResult } from '#src/shared-types/visualization/Legacy';
+import { LegacyVisualizationResult } from '@telefonovat/syga--contract';
 import { exec } from '#src/services/util/exec';
 import { config } from '#src/config';
 const safeJsonParse = <T>(str: string) => {
