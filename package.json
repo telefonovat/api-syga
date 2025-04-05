@@ -4,14 +4,12 @@
   "description": "",
   "main": "src/app.ts",
   "scripts": {
-    "dev": "node_modules/nodemon/bin/nodemon.js -r tsconfig-paths/register --quiet --watch src src/app.ts",
+    "dev:start": "tsx watch src/app.ts",
     "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/bcryptjs": "^2.4.6",
-    "@types/mongodb": "^4.0.6",
     "bcryptjs": "^2.4.3",
     "child_process": "^1.0.2",
     "cors": "^2.8.5",
@@ -23,6 +21,7 @@
   },
   "devDependencies": {
     "@telefonovat/syga--contract": "^1.1.0",
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
@@ -33,6 +32,7 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.19.3",
     "util": "^0.12.5"
   },
   "imports": {

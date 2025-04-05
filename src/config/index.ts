@@ -5,7 +5,7 @@ const config = {
     process.env.MONGODB_URL ||
     'mongodb+srv://kheltan:aPepj6QfoOmLTih3@syga-test.zlpph.mongodb.net/?retryWrites=true&w=majority&appName=syga-test',
   DB_NAME: process.env.DB_NAME || 'syga-test',
-  JWT_SECRET: process.env.JWT_SECRET,
+  JWT_SECRET: process.env.JWT_SECRET || 'phone',
 };
 
 export { config };
