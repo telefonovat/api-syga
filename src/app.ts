@@ -18,3 +18,5 @@ app.use(router);
 app.listen(config.PORT, () => {
   console.log(`Example app listening on port ${config.PORT}`);
 });
+
+export { app };
