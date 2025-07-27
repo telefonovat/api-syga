@@ -1,13 +1,21 @@
 import {
   Edge,
+  EdgeColors,
+  EdgeLabels,
+  EdgeShapes,
   GraphComponent,
+  GraphComponentStyle,
   GraphEdge,
   GraphType,
   GraphVertex,
+  GraphVertexShape,
   LegacyComponent,
   LegacyFrame,
   LegacyVisualizationResult,
   Node,
+  NodeColors,
+  NodeLabels,
+  NodeShapes,
 } from '@telefonovat/syga--contract';
 import { VisualizationFrame } from '@telefonovat/syga--contract/domain/visualization/VisualizationFrame';
 import { ExecuteAlgorithmSuccessResponse } from '@telefonovat/syga--contract/response/results';
@@ -70,6 +78,54 @@ function toGraphEdge(inputEdge: Edge): GraphEdge {
   };
 }
 
+function toVertexLabels(
+  input: NodeLabels,
+): GraphComponentStyle['vertexLabels'] {
+  return Object.fromEntries(
+    Object.entries(input),
+  ) as GraphComponentStyle['vertexLabels'];
+}
+
+function toEdgeLabels(
+  input: EdgeLabels,
+): GraphComponentStyle['edgeLabels'] {
+  return Object.fromEntries(
+    Object.entries(input),
+  ) as GraphComponentStyle['edgeLabels'];
+}
+
+function toVertexColors(
+  input: NodeColors,
+): GraphComponentStyle['vertexColors'] {
+  return Object.fromEntries(
+    Object.entries(input),
+  ) as GraphComponentStyle['vertexColors'];
+}
+
+function toEdgeColors(
+  input: EdgeColors,
+): GraphComponentStyle['edgeColors'] {
+  return Object.fromEntries(
+    Object.entries(input),
+  ) as GraphComponentStyle['edgeColors'];
+}
+
+function toVertexShapes(
+  input: NodeShapes,
+): GraphComponentStyle['vertexShapes'] {
+  return Object.fromEntries(
+    Object.entries(input),
+  ) as GraphComponentStyle['vertexShapes'];
+}
+
+function toEdgeShapes(
+  input: EdgeShapes,
+): GraphComponentStyle['edgeShapes'] {
+  return Object.fromEntries(
+    Object.entries(input),
+  ) as GraphComponentStyle['edgeShapes'];
+}
+
 /**
  * converts LegacyVisualizationResult to new type in contract repo
  */
@@ -107,14 +163,26 @@ export function fromLegacyVisualizationResult(
           edges: legacyComponent.edges.map((e) => toGraphEdge(e)),
           style: {
             // TODO: Styles
-            vertexColors: {},
-            edgeColors: {},
+            vertexColors: toVertexColors(
+              legacyComponent.style.node_colors,
+            ),
+            edgeColors: toEdgeColors(
+              legacyComponent.style.edge_colors,
+            ),
 
-            vertexShapes: {},
-            edgeShapes: {},
+            vertexShapes: toVertexShapes(
+              legacyComponent.style.node_shapes,
+            ),
+            edgeShapes: toEdgeShapes(
+              legacyComponent.style.edge_shapes,
+            ),
 
-            vertexLabels: {},
-            edgeLabels: {},
+            vertexLabels: toVertexLabels(
+              legacyComponent.style.node_labels,
+            ),
+            edgeLabels: toEdgeLabels(
+              legacyComponent.style.edge_labels,
+            ),
           },
         };
 
