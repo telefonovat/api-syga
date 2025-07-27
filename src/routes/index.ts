@@ -12,4 +12,14 @@ router.use('/algorithms', algorithmsRouter);
 
 router.use('/user', userRouter);
 router.use('/users', usersRouter);
+
+router.post('/test', (request, response) => {
+  response.statusCode = 200;
+  response.send("That's all folks!");
+});
+
+router.get('/test', (request, response) => {
+  response.statusCode = 200;
+  response.send('What do you want?');
+});
 export { router };
