@@ -20,7 +20,7 @@
     "uuid": "^11.0.3"
   },
   "devDependencies": {
-    "@telefonovat/syga--contract": "^3.0.0",
+    "@telefonovat/syga--contract": "^4.0.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
