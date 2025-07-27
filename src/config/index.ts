@@ -1,5 +1,5 @@
 const config = {
-  PORT: process.env.API_PORT || 6000,
+  PORT: process.env.API_PORT || 8100,
   ENGINE_IMAGE: process.env.ENGINE_IMAGE || 'syga/engine',
   MONGODB_URL:
     process.env.MONGODB_URL ||
