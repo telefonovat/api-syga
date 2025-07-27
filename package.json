@@ -20,7 +20,7 @@
     "uuid": "^11.0.3"
   },
   "devDependencies": {
-    "@telefonovat/syga--contract": "^1.2.0",
+    "@telefonovat/syga--contract": "^3.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
@@ -39,5 +39,6 @@
   },
   "imports": {
     "#src/*": "./src/*"
-  }
+  },
+  "packageManager": "pnpm@10.13.1+sha512.37ebf1a5c7a30d5fabe0c5df44ee8da4c965ca0c5af3dbab28c3a1681b70a256218d05c81c9c0dcf767ef6b8551eb5b960042b9ed4300c59242336377e01cfad"
 }
