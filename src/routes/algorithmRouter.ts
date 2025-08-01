@@ -3,7 +3,7 @@ import { Router } from 'express';
 
 const algorithmRouter = Router();
 
-algorithmRouter.post('/execute', async (request, response) => {
+algorithmRouter.post('/build', async (request, response) => {
   const handle = useAlgorithmExecutionHandler();
   await handle(request, response);
 });

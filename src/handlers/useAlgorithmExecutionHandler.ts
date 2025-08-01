@@ -48,7 +48,6 @@ export function useAlgorithmExecutionHandler(): AlgorithmExecutionHandler {
     response: Response,
   ) => {
     const body = request.body;
-    console.log(`body : ${body.code}`);
     if (isExecuteAlgorithmRequest(body)) {
       const statusCode = 200;
       const result = await runAlgorithm(body.code);
@@ -56,11 +55,6 @@ export function useAlgorithmExecutionHandler(): AlgorithmExecutionHandler {
         success: true,
         result: result,
       };
-      // const successResponse = {
-      //   success: true,
-      //   message: 'Success',
-      //   content: result,
-      // };
 
       sendResponse(response, {
         statusCode,
@@ -70,7 +64,7 @@ export function useAlgorithmExecutionHandler(): AlgorithmExecutionHandler {
       const statusCode = 400;
       const errorResponse: SygaApiErrorResponse = {
         success: false,
-        errorMessages: ['empty body'],
+        errorMessages: ['Invalid body'],
       };
 
       sendResponse(response, { statusCode, content: errorResponse });
