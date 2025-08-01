@@ -5,7 +5,7 @@
   "main": "src/app.ts",
   "scripts": {
     "dev:start": "tsx watch src/app.ts",
-    "test": "jest"
+    "test": "vitest"
   },
   "author": "",
   "license": "ISC",
@@ -35,7 +35,9 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.19.3",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "vite": "^7.0.6",
+    "vitest": "^3.2.4"
   },
   "imports": {
     "#src/*": "./src/*"
