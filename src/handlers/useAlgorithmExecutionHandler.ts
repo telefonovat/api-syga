@@ -53,7 +53,7 @@ export function useAlgorithmExecutionHandler(): AlgorithmExecutionHandler {
       const result = await runAlgorithm(body.code);
       const successResponse: ExecuteAlgorithmSuccessResponse = {
         success: true,
-        result: result,
+        payload: result,
       };
 
       sendResponse(response, {
