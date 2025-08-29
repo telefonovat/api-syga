@@ -14,7 +14,7 @@ import { config } from '#src/config';
 const router = express.Router();
 
 /*
- *
+ * @deprecated
  * Execute Python code sent from browser
  *
  */
@@ -54,16 +54,25 @@ const checkForJWT = (
   }
 };
 
+/*
+ * @deprecated
+ */
 router.get(
   '/detail/:uuid',
   checkForJWT,
   algorithmDetailController.handleGetRequest,
 );
 
+/*
+ * @deprecated
+ */
 router.put('/detail/:uuid', checkForJWT, (request, response) =>
   algorithmDetailController.handleUpdateRequest(request, response),
 );
 
+/*
+ * @deprecated
+ */
 router.delete('/detail/:uuid', checkForJWT, (request, response) =>
   algorithmDetailController.handleDeleteRequest(request, response),
 );

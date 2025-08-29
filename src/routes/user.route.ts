@@ -6,6 +6,10 @@ import { validateJWT } from '#src/middleware';
 import express from 'express';
 
 const router = express.Router();
+
+/*
+ * @deprecated
+ */
 router.get(
   '/:username/algorithms',
   validateJWT,
@@ -16,9 +20,16 @@ router.get(
     ),
 );
 
+/*
+ * @deprecated
+ */
 router.get('/:username/algorithms/public', (request, response) =>
   userPublicAlgorithmsGetter.handleRequest(request, response),
 );
+
+/*
+ * @deprecated
+ */
 router.post(
   '/:username/algorithms',
   validateJWT,

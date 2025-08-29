@@ -12,6 +12,10 @@ const router = express.Router();
 
 // Accepts every field from UserSchema except role
 // The role is assigned on the server side
+
+/*
+ * @deprecated
+ */
 router.post('/register', async (request, response) =>
   userAuthenticationController.handleRegisterRequest(
     request,
@@ -20,10 +24,17 @@ router.post('/register', async (request, response) =>
 );
 
 //Accepts username and password
+
+/*
+ * @deprecated
+ */
 router.post('/login', async (request, response) =>
   userAuthenticationController.handleLoginRequest(request, response),
 );
 
+/*
+ * @deprecated
+ */
 router.post('/search', async (request, response) =>
   userSearchController.handleSearchRequest(request, response),
 );
