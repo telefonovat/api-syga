@@ -1,13 +1,11 @@
 import {
   LegacyVisualizationResult,
-  SygaApiErrorResponse,
+  SygaAPIErrorResponse,
 } from '@telefonovat/syga--contract';
 import { Request, Response } from 'express';
 import { sendResponse } from './sendResponse';
 import { isExecuteAlgorithmRequest } from './validators/isExecuteAlgorithmRequest';
-import { config } from '#src/config';
 import { exec } from '#src/services/util/exec';
-import { backendAdaptor } from '#src/services/adaptors/backend-adaptor';
 import { ExecuteAlgorithmSuccessResponse } from '@telefonovat/syga--contract/response/results';
 import { safeJSONParse } from '#src/services/util';
 import { fromLegacyVisualizationResult } from '#src/services/util/formatAdapters';
@@ -62,7 +60,7 @@ export function useAlgorithmExecutionHandler(): AlgorithmExecutionHandler {
       });
     } else {
       const statusCode = 400;
-      const errorResponse: SygaApiErrorResponse = {
+      const errorResponse: SygaAPIErrorResponse = {
         success: false,
         errorMessages: ['Invalid body'],
       };
