@@ -1,6 +1,6 @@
 import {
   LegacyVisualizationResult,
-  SygaAPIErrorResponse,
+  ApiErrorResponse,
 } from '@telefonovat/syga--contract';
 import { Request, Response } from 'express';
 import { sendResponse } from './sendResponse';
@@ -60,7 +60,7 @@ export function useAlgorithmExecutionHandler(): AlgorithmExecutionHandler {
       });
     } else {
       const statusCode = 400;
-      const errorResponse: SygaAPIErrorResponse = {
+      const errorResponse: ApiErrorResponse = {
         success: false,
         errorMessages: ['Invalid body'],
       };

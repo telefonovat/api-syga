@@ -2,7 +2,7 @@ import { ExecuteAlgorithmSuccessResponse } from '@telefonovat/syga--contract/res
 
 export const buildResponse: ExecuteAlgorithmSuccessResponse = {
   success: true,
-  result: {
+  payload: {
     timestamp: '2025-08-01T13:26:26.309671',
     response: 'success',
     algorithmTime: 0.02062138300971128,

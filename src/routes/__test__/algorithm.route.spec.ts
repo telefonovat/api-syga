@@ -2,14 +2,14 @@ import request from 'supertest';
 import { app } from '#src/app';
 import {
   ExecuteAlgorithmRequest,
-  SygaApiErrorResponse,
+  ApiErrorResponse,
 } from '@telefonovat/syga--contract';
 import { expect, describe, it } from 'vitest';
 import { buildResponse } from './expectedResponses';
 
 describe('/algorithm/build', () => {
   it('should return error response on empty request', async function () {
-    const errorResponse: SygaApiErrorResponse = {
+    const errorResponse: ApiErrorResponse = {
       success: false,
       errorMessages: ['Invalid body'],
     };
@@ -35,7 +35,7 @@ describe('/algorithm/build', () => {
       algorithmTime: expect.any(Number),
       parseTime: expect.any(Number),
       elapsed: expect.any(Number),
-      frames: buildResponse.result.frames,
+      frames: buildResponse.payload.frames,
     });
   });
 });
