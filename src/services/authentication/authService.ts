@@ -10,11 +10,19 @@ interface RegisterPayload {
 }
 
 export interface AuthService {
-  signInUser(payload: SignInPayload): void;
+  signInUser(payload: SignInPayload): boolean;
   registerUser(payload: RegisterPayload): void;
 }
 
 export const authService: AuthService = {
-  signInUser(payload) {},
+  signInUser(payload) {
+    if (
+      payload.username === 'phone' &&
+      payload.password === 'phoneisawesome'
+    ) {
+      return true;
+    }
+    return false;
+  },
   registerUser(payload) {},
 };

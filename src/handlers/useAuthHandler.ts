@@ -5,6 +5,10 @@ import {
   AuthenticateSuccessResponse,
 } from '@telefonovat/syga--contract';
 import { sendResponse } from './sendResponse';
+import {
+  authService,
+  tokenService,
+} from '#src/services/authentication';
 type AuthHandler = (
   request: Request,
   response: Response,
@@ -15,14 +19,20 @@ export function useAuthHandler(): AuthHandler {
     const body = request.body;
     if (isAuthenticateRequest(body)) {
       if (
-        body.username === 'phone' &&
-        body.password === 'phoneisawesome'
+        authService.signInUser({
+          username: body.username,
+          password: body.password,
+        })
       ) {
         const successResponse: AuthenticateSuccessResponse = {
           success: true,
           payload: {
-            accessToken: '',
-            refreshToken: '',
+            accessToken: tokenService.signAccessToken({
+              username: body.username,
+            }),
+            refreshToken: tokenService.signRefreshToken({
+              username: body.username,
+            }),
           },
         };
 
