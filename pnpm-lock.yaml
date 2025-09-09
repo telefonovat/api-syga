@@ -34,8 +34,8 @@ importers:
         version: 11.1.0
     devDependencies:
       '@telefonovat/syga--contract':
-        specifier: ^6.3.0
-        version: 6.3.0
+        specifier: ^6.6.0
+        version: 6.6.0
       '@types/bcryptjs':
         specifier: ^2.4.6
         version: 2.4.6
@@ -628,8 +628,8 @@ packages:
   '@sinonjs/fake-timers@10.3.0':
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
 
-  '@telefonovat/syga--contract@6.3.0':
-    resolution: {integrity: sha512-NV52XYzSnrdzxoVzgk2JdIEJqg74ULHmVi90WZHouRigG8YTn4y6zwe+bGbWnGLuOegfaVATmkwhYz1A3LXLKQ==, tarball: https://npm.pkg.github.com/download/@telefonovat/syga--contract/6.3.0/cef76d8832048ec413a975f127b249e2db5724de}
+  '@telefonovat/syga--contract@6.6.0':
+    resolution: {integrity: sha512-83Dt77llhwgnQuSwkpBYqPD52dFcULteovoCRoB8bA8jny3VpE2Z4yH+WtECbi358T6eGuaiLZX10XRexTKwsw==, tarball: https://npm.pkg.github.com/download/@telefonovat/syga--contract/6.6.0/45179bf2d7b45bec41fab5d5e9008bc3f0e3ba06}
 
   '@tsconfig/node10@1.0.11':
     resolution: {integrity: sha512-DcRjDCujK/kCk/cUe8Xz8ZSpm8mS3mNNpta+jGCA6USEDfktlNvm1+IuZ9eTcDbNk41BHwpHHeW+N1lKCz4zOw==}
@@ -3019,7 +3019,7 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.1
 
-  '@telefonovat/syga--contract@6.3.0': {}
+  '@telefonovat/syga--contract@6.6.0': {}
 
   '@tsconfig/node10@1.0.11': {}
 
