@@ -5,6 +5,8 @@ import { config } from './config';
 
 import { router } from './routes';
 import { validateConfig } from './startup';
+import { connect } from 'mongoose';
+import { connectToDatabase } from './services/database';
 
 validateConfig(config);
 
@@ -15,8 +17,16 @@ app.use(cors());
 
 app.use(router);
 
-app.listen(config.PORT, () => {
-  console.log(`Example app listening on port ${config.PORT}`);
+async function start() {
+  await connectToDatabase();
+  app.listen(config.PORT, () => {
+    console.log(`[LOG] SYGA API listening on port ${config.PORT}`);
+  });
+}
+
+start().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });
 
 export { app };

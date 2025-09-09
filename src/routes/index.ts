@@ -5,11 +5,13 @@ import { router as userRouter } from './user.route';
 import { algorithmRouter } from './algorithmRouter';
 import { authRouter } from './authRouter';
 import express from 'express';
+import { userDataRouter } from './userDataRouter';
 
 const router = express.Router();
 
 router.use('/algorithm', algorithmRouter);
 router.use('', authRouter);
+router.use('/user', userDataRouter);
 // router.use('/algorithms', algorithmsRouter);
 
 // router.use('/user', userRouter);
