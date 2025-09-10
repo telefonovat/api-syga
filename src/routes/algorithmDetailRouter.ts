@@ -1,9 +1,9 @@
 import { useAlgorithmExecutionHandler } from '#src/handlers';
 import { Router } from 'express';
 
-const algorithmRouter = Router();
+const algorithmDetailRouter = Router();
 
-algorithmRouter.post('/build', async (request, response) => {
+algorithmDetailRouter.post('/build', async (request, response) => {
   console.log(
     `[LOG] Algorithm executed at time ${new Date().toISOString()}`,
   );
@@ -11,4 +11,4 @@ algorithmRouter.post('/build', async (request, response) => {
   await handle(request, response);
 });
 
-export { algorithmRouter };
+export { algorithmDetailRouter };

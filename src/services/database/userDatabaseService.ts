@@ -1,16 +1,22 @@
 import {
   SygaAlgorithmIdentifier,
   SygaAlgorithm,
+  SygaAlgorithmCreateParams,
 } from '@telefonovat/syga--contract';
 import { getDb } from './setup';
 import { PushOperator } from 'mongodb';
+import { v4 as uuidv4 } from 'uuid';
 
 interface UserDatabaseService {
   userExists(username: string): Promise<boolean>;
   getAlgorithms(username: string): Promise<SygaAlgorithmIdentifier[]>;
+  addAlgorithms(
+    username: string,
+    algorithms: SygaAlgorithmCreateParams[],
+  ): Promise<void>;
   createAlgorithm(
     username: string,
-    algorithm: SygaAlgorithm,
+    algorithm: SygaAlgorithmCreateParams,
   ): Promise<void>;
 }
 
@@ -39,11 +45,20 @@ export const userDatabaseService: UserDatabaseService = {
 
     return algorithms;
   },
-
-  async createAlgorithm(username: string, algorithm: SygaAlgorithm) {
+  async addAlgorithms(username, algorithms) {
+    algorithms.map((algorithm) =>
+      this.createAlgorithm(username, algorithm),
+    );
+  },
+  async createAlgorithm(
+    username: string,
+    algorithm: SygaAlgorithmCreateParams,
+  ) {
     const db = getDb();
+
+    const algorithmUuid = uuidv4();
     const algorithmIdentifier: SygaAlgorithmIdentifier = {
-      uuid: algorithm.uuid,
+      uuid: algorithmUuid,
       name: algorithm.name,
     };
     const result = await db.collection('users').updateOne(

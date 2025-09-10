@@ -8,10 +8,12 @@ userDataRouter.get(
   '/:username/algorithms',
   validateAccessToken,
   async (request, response) => {
-    const handle = useGetUserAlgorithmsHandler(
-      response.locals.username,
-      request.params.username,
+    const asker = response.locals.username;
+    const target = request.params.username;
+    console.log(
+      `[LOG] GET user algorithms requests from ${asker} to ${target}`,
     );
+    const handle = useGetUserAlgorithmsHandler(asker, target);
     handle(request, response);
   },
 );
