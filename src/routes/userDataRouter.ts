@@ -5,11 +5,12 @@ import { useGetUserAlgorithmsHandler } from '#src/handlers/useGetUserAlgorithmsH
 const userDataRouter = Router();
 
 userDataRouter.get(
-  '/algorithms',
+  '/:username/algorithms',
   validateAccessToken,
   async (request, response) => {
     const handle = useGetUserAlgorithmsHandler(
       response.locals.username,
+      request.params.username,
     );
     handle(request, response);
   },

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { sendResponse } from './sendResponse';
 import {
+  ApiErrorResponse,
   GetUserAlgorithmsSuccessResponse,
   SygaAlgorithmIdentifier,
 } from '@telefonovat/syga--contract';
@@ -14,16 +15,33 @@ type GetUserAlgorithmsHandler = (
   response: Response,
 ) => Promise<void>;
 
-export function useGetUserAlgorithmsHandler(username: string) {
+export function useGetUserAlgorithmsHandler(
+  askerUsername: string,
+  targetUsername: string,
+) {
   const handler: GetUserAlgorithmsHandler = async (
     request: Request,
     response: Response,
   ) => {
-    //TODO: Remove, just temporary
-    await connectToDatabase();
+    const userExists =
+      await userDatabaseService.userExists(targetUsername);
+    if (!userExists) {
+      const errorResponse: ApiErrorResponse = {
+        success: false,
+        errorMessages: ['User does not exist'],
+      };
+      sendResponse(response, {
+        statusCode: 404,
+        content: errorResponse,
+      });
+      return;
+    }
 
+    // If asker !== target, just show public algorithms
     const algorithms =
-      await userDatabaseService.getAlgorithms(username);
+      askerUsername === targetUsername
+        ? await userDatabaseService.getAlgorithms(targetUsername)
+        : [];
 
     const successResponse: GetUserAlgorithmsSuccessResponse = {
       success: true,

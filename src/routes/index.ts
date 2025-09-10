@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.use('/algorithm', algorithmRouter);
 router.use('', authRouter);
-router.use('/user', userDataRouter);
+router.use('', userDataRouter);
 // router.use('/algorithms', algorithmsRouter);
 
 // router.use('/user', userRouter);
