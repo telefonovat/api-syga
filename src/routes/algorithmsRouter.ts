@@ -8,7 +8,9 @@ algorithmsRouter.post(
   '',
   validateAccessToken,
   async (request, response) => {
-    const handle = useAddAlgorithmsHandler(response.locals.username);
+    const asker = response.locals.username;
+    console.log(`[LOG] attempt to add algorithms by ${asker}`);
+    const handle = useAddAlgorithmsHandler(asker);
     await handle(request, response);
   },
 );

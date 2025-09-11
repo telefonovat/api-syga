@@ -1,5 +1,6 @@
 import { userDatabaseService } from '#src/services/database';
 import {
+  AddAlgorithmsSuccessBody,
   ApiErrorResponse,
   isAddAlgorithmsRequestBody,
 } from '@telefonovat/syga--contract';
@@ -18,9 +19,17 @@ export function useAddAlgorithmsHandler(
     const body = request.body;
     if (isAddAlgorithmsRequestBody(body)) {
       const { algorithms } = body;
-      userDatabaseService.addAlgorithms(username, algorithms);
+      const algorithmIdentifiers =
+        await userDatabaseService.addAlgorithms(username, algorithms);
 
-      sendResponse(response, { statusCode: 201, content: {} });
+      const responseBody: AddAlgorithmsSuccessBody = {
+        success: true,
+        payload: algorithmIdentifiers,
+      };
+      sendResponse(response, {
+        statusCode: 201,
+        content: responseBody,
+      });
     } else {
       const invalidBodyResponse: ApiErrorResponse = {
         success: false,

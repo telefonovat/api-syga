@@ -1,6 +1,5 @@
 import {
   SygaAlgorithmIdentifier,
-  SygaAlgorithm,
   SygaAlgorithmCreateParams,
 } from '@telefonovat/syga--contract';
 import { getDb } from './setup';
@@ -13,11 +12,11 @@ interface UserDatabaseService {
   addAlgorithms(
     username: string,
     algorithms: SygaAlgorithmCreateParams[],
-  ): Promise<void>;
+  ): Promise<SygaAlgorithmIdentifier[]>;
   createAlgorithm(
     username: string,
     algorithm: SygaAlgorithmCreateParams,
-  ): Promise<void>;
+  ): Promise<SygaAlgorithmIdentifier>;
 }
 
 export const userDatabaseService: UserDatabaseService = {
@@ -45,15 +44,21 @@ export const userDatabaseService: UserDatabaseService = {
 
     return algorithms;
   },
-  async addAlgorithms(username, algorithms) {
-    algorithms.map((algorithm) =>
-      this.createAlgorithm(username, algorithm),
+  async addAlgorithms(
+    username,
+    algorithms,
+  ): Promise<SygaAlgorithmIdentifier[]> {
+    const algorithmIdentifiers = Promise.all(
+      algorithms.map((algorithm) =>
+        this.createAlgorithm(username, algorithm),
+      ),
     );
+    return algorithmIdentifiers;
   },
   async createAlgorithm(
     username: string,
     algorithm: SygaAlgorithmCreateParams,
-  ) {
+  ): Promise<SygaAlgorithmIdentifier> {
     const db = getDb();
 
     const algorithmUuid = uuidv4();
@@ -74,9 +79,14 @@ export const userDatabaseService: UserDatabaseService = {
       console.warn(
         `[WARN] algorithm creation failed as we could not find username ${username}`,
       );
-      return;
+      throw new Error('Algorithm creation failed');
     }
 
     //TODO: Actually add the code to algorithms
+
+    return {
+      uuid: algorithmUuid,
+      name: algorithm.name,
+    };
   },
 };
