@@ -1,6 +1,8 @@
 import {
   LegacyVisualizationResult,
   ApiErrorResponse,
+  ExecuteAlgorithmRequestBodySchema,
+  ExecuteAlgorithmRequestBody,
 } from '@telefonovat/syga--contract';
 import { Request, Response } from 'express';
 import { sendResponse } from './sendResponse';
@@ -9,6 +11,7 @@ import { exec } from '#src/services/util/exec';
 import { ExecuteAlgorithmSuccessResponse } from '@telefonovat/syga--contract/response/results';
 import { safeJSONParse } from '#src/services/util';
 import { fromLegacyVisualizationResult } from '#src/services/util/formatAdapters';
+import { z } from 'zod';
 
 type AlgorithmExecutionHandler = (
   request: Request,
@@ -46,26 +49,44 @@ export function useAlgorithmExecutionHandler(): AlgorithmExecutionHandler {
     response: Response,
   ) => {
     const body = request.body;
-    if (isExecuteAlgorithmRequest(body)) {
-      const statusCode = 200;
-      const result = await runAlgorithm(body.code);
+    try {
+      const executeRequestBody: ExecuteAlgorithmRequestBody =
+        ExecuteAlgorithmRequestBodySchema.parse(body);
+
+      const result = await runAlgorithm(executeRequestBody.code);
       const successResponse: ExecuteAlgorithmSuccessResponse = {
         success: true,
         payload: result,
       };
 
       sendResponse(response, {
-        statusCode,
+        statusCode: 200,
         content: successResponse,
       });
-    } else {
-      const statusCode = 400;
-      const errorResponse: ApiErrorResponse = {
-        success: false,
-        errorMessages: ['Invalid body'],
-      };
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const statusCode = 400;
+        const errorResponse: ApiErrorResponse = {
+          success: false,
+          errorMessages: ['Request body validation failed'],
+        };
 
-      sendResponse(response, { statusCode, content: errorResponse });
+        sendResponse(response, {
+          statusCode,
+          content: errorResponse,
+        });
+      } else {
+        const statusCode = 400;
+        const errorResponse: ApiErrorResponse = {
+          success: false,
+          errorMessages: ['An unexpected error occured'],
+        };
+
+        sendResponse(response, {
+          statusCode,
+          content: errorResponse,
+        });
+      }
     }
   };
 

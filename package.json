@@ -15,10 +15,11 @@
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.9.0",
-    "uuid": "^11.0.3"
+    "uuid": "^11.0.3",
+    "zod": "^4.1.8"
   },
   "devDependencies": {
-    "@telefonovat/syga--contract": "^6.8.0",
+    "@telefonovat/syga--contract": "^7.1.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
