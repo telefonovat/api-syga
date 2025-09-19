@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
 import {
   ApiErrorResponse,
-  isAuthenticateRequest,
   AuthenticateSuccessResponse,
-  AuthenticateRequestSchema,
+  AuthenticateRequestBodySchema,
 } from '@telefonovat/syga--contract';
 import { sendResponse } from './sendResponse';
 import {
@@ -20,7 +19,8 @@ export function useAuthHandler(): AuthHandler {
   const handler = async (request: Request, response: Response) => {
     const body = request.body;
     try {
-      const authRequestBody = AuthenticateRequestSchema.parse(body);
+      const authRequestBody =
+        AuthenticateRequestBodySchema.parse(body);
       if (
         authService.signInUser({
           username: authRequestBody.username,
