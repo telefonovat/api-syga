@@ -3,9 +3,11 @@ import {
   AddAlgorithmsSuccessBody,
   ApiErrorResponse,
   isAddAlgorithmsRequestBody,
+  AddAlgorithmsRequestBodySchema,
 } from '@telefonovat/syga--contract';
 import { Request, Response } from 'express';
 import { sendResponse } from './sendResponse';
+import { getErrorResponse } from './handleError';
 
 type AddAlgorithmsHandler = (
   request: Request,
@@ -17,8 +19,11 @@ export function useAddAlgorithmsHandler(
 ): AddAlgorithmsHandler {
   const handler = async (request: Request, response: Response) => {
     const body = request.body;
-    if (isAddAlgorithmsRequestBody(body)) {
-      const { algorithms } = body;
+    try {
+      const addAlgorithmsRequestBody =
+        AddAlgorithmsRequestBodySchema.parse(body);
+      const { algorithms } = addAlgorithmsRequestBody;
+
       const algorithmIdentifiers =
         await userDatabaseService.addAlgorithms(username, algorithms);
 
@@ -30,15 +35,9 @@ export function useAddAlgorithmsHandler(
         statusCode: 201,
         content: responseBody,
       });
-    } else {
-      const invalidBodyResponse: ApiErrorResponse = {
-        success: false,
-        errorMessages: ['Request body is invalid'],
-      };
-      sendResponse(response, {
-        statusCode: 400,
-        content: invalidBodyResponse,
-      });
+    } catch (error) {
+      const { statusCode, body } = getErrorResponse(error);
+      sendResponse(response, { statusCode, content: body });
     }
   };
 
