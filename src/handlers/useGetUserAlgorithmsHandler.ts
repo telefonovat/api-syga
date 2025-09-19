@@ -20,7 +20,7 @@ export function useGetUserAlgorithmsHandler(
   targetUsername: string,
 ) {
   const handler: GetUserAlgorithmsHandler = async (
-    request: Request,
+    _request: Request,
     response: Response,
   ) => {
     const userExists =

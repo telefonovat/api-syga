@@ -6,13 +6,11 @@ import {
 } from '@telefonovat/syga--contract';
 import { Request, Response } from 'express';
 import { sendResponse } from './sendResponse';
-import { isExecuteAlgorithmRequest } from './validators/isExecuteAlgorithmRequest';
 import { exec } from '#src/services/util/exec';
 import { ExecuteAlgorithmSuccessResponse } from '@telefonovat/syga--contract/response/results';
 import { safeJSONParse } from '#src/services/util';
 import { fromLegacyVisualizationResult } from '#src/services/util/formatAdapters';
-import { z } from 'zod';
-
+import { getErrorResponse } from './handleError';
 type AlgorithmExecutionHandler = (
   request: Request,
   response: Response,
@@ -34,8 +32,9 @@ async function runAlgorithm(code: string) {
   const { stdout } = await runEngine(code);
 
   //Legacy output format by previous developer
-  const legacyOutput =
-    safeJSONParse<LegacyVisualizationResult>(stdout);
+  const legacyOutput = safeJSONParse<LegacyVisualizationResult>(
+    stdout,
+  ) as LegacyVisualizationResult;
   if (legacyOutput !== undefined) {
     return fromLegacyVisualizationResult(legacyOutput);
   } else {
@@ -64,29 +63,8 @@ export function useAlgorithmExecutionHandler(): AlgorithmExecutionHandler {
         content: successResponse,
       });
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        const statusCode = 400;
-        const errorResponse: ApiErrorResponse = {
-          success: false,
-          errorMessages: ['Request body validation failed'],
-        };
-
-        sendResponse(response, {
-          statusCode,
-          content: errorResponse,
-        });
-      } else {
-        const statusCode = 400;
-        const errorResponse: ApiErrorResponse = {
-          success: false,
-          errorMessages: ['An unexpected error occured'],
-        };
-
-        sendResponse(response, {
-          statusCode,
-          content: errorResponse,
-        });
-      }
+      const { statusCode, body } = getErrorResponse(error);
+      sendResponse(response, { statusCode, content: body });
     }
   };
 

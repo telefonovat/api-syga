@@ -3,12 +3,14 @@ import {
   ApiErrorResponse,
   isAuthenticateRequest,
   AuthenticateSuccessResponse,
+  AuthenticateRequestSchema,
 } from '@telefonovat/syga--contract';
 import { sendResponse } from './sendResponse';
 import {
   authService,
   tokenService,
 } from '#src/services/authentication';
+import { getErrorResponse } from './handleError';
 type AuthHandler = (
   request: Request,
   response: Response,
@@ -17,11 +19,12 @@ type AuthHandler = (
 export function useAuthHandler(): AuthHandler {
   const handler = async (request: Request, response: Response) => {
     const body = request.body;
-    if (isAuthenticateRequest(body)) {
+    try {
+      const authRequestBody = AuthenticateRequestSchema.parse(body);
       if (
         authService.signInUser({
-          username: body.username,
-          password: body.password,
+          username: authRequestBody.username,
+          password: authRequestBody.password,
         })
       ) {
         const successResponse: AuthenticateSuccessResponse = {
@@ -51,15 +54,9 @@ export function useAuthHandler(): AuthHandler {
           content: failedAuthResponse,
         });
       }
-    } else {
-      const errorResponse: ApiErrorResponse = {
-        success: false,
-        errorMessages: ['Invalid body'],
-      };
-      sendResponse(response, {
-        statusCode: 400,
-        content: errorResponse,
-      });
+    } catch (error: any) {
+      const { statusCode, body } = getErrorResponse(error);
+      sendResponse(response, { statusCode, content: body });
     }
   };
   return handler;
