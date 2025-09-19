@@ -1,6 +1,7 @@
 import {
   SygaAlgorithmIdentifier,
   SygaAlgorithmCreateParams,
+  SygaAlgorithm,
 } from '@telefonovat/syga--contract';
 import { getDb } from './setup';
 import { PushOperator } from 'mongodb';
@@ -57,16 +58,16 @@ export const userDatabaseService: UserDatabaseService = {
   },
   async createAlgorithm(
     username: string,
-    algorithm: SygaAlgorithmCreateParams,
+    algorithmParams: SygaAlgorithmCreateParams,
   ): Promise<SygaAlgorithmIdentifier> {
     const db = getDb();
 
     const algorithmUuid = uuidv4();
     const algorithmIdentifier: SygaAlgorithmIdentifier = {
       uuid: algorithmUuid,
-      name: algorithm.name,
+      name: algorithmParams.name,
     };
-    const result = await db.collection('users').updateOne(
+    const userUpdateResult = await db.collection('users').updateOne(
       { username },
       {
         $push: {
@@ -75,7 +76,7 @@ export const userDatabaseService: UserDatabaseService = {
       },
     );
 
-    if (result.matchedCount === 0) {
+    if (userUpdateResult.matchedCount === 0) {
       console.warn(
         `[WARN] algorithm creation failed as we could not find username ${username}`,
       );
@@ -83,10 +84,37 @@ export const userDatabaseService: UserDatabaseService = {
     }
 
     //TODO: Actually add the code to algorithms
-
-    return {
-      uuid: algorithmUuid,
-      name: algorithm.name,
+    const now = new Date().toISOString();
+    const slug = algorithmIdentifier.name
+      .toLowerCase()
+      // strips unsafe characters
+      .replace(/[^\w\s\']|_/g, '')
+      .replace(/\s+/g, ' ')
+      .split(' ')
+      .join('-');
+    const algorithmRecord: SygaAlgorithm = {
+      ...algorithmIdentifier,
+      slug: slug,
+      code: algorithmParams.code,
+      author: username,
+      createdAtIso: now,
+      lastUpdatedAtIso: now,
     };
+
+    const algorithmLookUpResult = await db
+      .collection('algorithms')
+      .findOne({ uuid: algorithmIdentifier.uuid });
+    if (algorithmLookUpResult) {
+      console.warn(
+        `[WARN] algorithm creation failed as algorithm with uuid ${algorithmIdentifier.uuid} already exists`,
+      );
+      throw new Error('Algorithm creation failed');
+    }
+
+    const _algorithmAddResult = await db
+      .collection('algorithms')
+      .insertOne(algorithmRecord);
+
+    return algorithmIdentifier;
   },
 };
