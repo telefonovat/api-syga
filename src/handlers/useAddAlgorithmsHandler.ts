@@ -1,8 +1,6 @@
 import { userDatabaseService } from '#src/services/database';
 import {
   AddAlgorithmsSuccessBody,
-  ApiErrorResponse,
-  isAddAlgorithmsRequestBody,
   AddAlgorithmsRequestBodySchema,
 } from '@telefonovat/syga--contract';
 import { Request, Response } from 'express';

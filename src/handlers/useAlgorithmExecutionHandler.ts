@@ -1,6 +1,5 @@
 import {
   LegacyVisualizationResult,
-  ApiErrorResponse,
   ExecuteAlgorithmRequestBodySchema,
   ExecuteAlgorithmRequestBody,
 } from '@telefonovat/syga--contract';
