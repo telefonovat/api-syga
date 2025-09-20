@@ -2,7 +2,7 @@ import { Response } from 'express';
 
 interface ResponseData {
   statusCode: number;
-  content: Object;
+  content: Object | undefined;
 }
 
 export function sendResponse(

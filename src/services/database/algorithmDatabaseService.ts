@@ -1,13 +1,12 @@
-import {
-  SygaAlgorithm,
-  SygaAlgorithmPublicData,
-} from '@telefonovat/syga--contract';
+import { SygaAlgorithmPublicData } from '@telefonovat/syga--contract';
 import { getDb } from './setup';
+import { Document, PullOperator } from 'mongodb';
 
 interface AlgorithmDatabaseService {
   ownsAlgorithm(username: string, uuid: string): Promise<boolean>;
   isAlgorithmPublic(uuid: string): Promise<boolean>;
   getAlgorithmDetail(uuid: string): Promise<SygaAlgorithmPublicData>;
+  deleteAlgorithm(uuid: string): Promise<void>;
 }
 
 export const algorithmDatabaseService: AlgorithmDatabaseService = {
@@ -55,5 +54,43 @@ export const algorithmDatabaseService: AlgorithmDatabaseService = {
       createdAtIso: algorithm.createdAtIso,
     };
     return publicView;
+  },
+  async deleteAlgorithm(uuid): Promise<void> {
+    const db = getDb();
+    const algorithm = await db
+      .collection('algorithms')
+      .findOne({ uuid: uuid });
+    if (!algorithm) {
+      console.log(`[LOG] No algorithm ${uuid} found`);
+      return;
+    }
+
+    const author = algorithm.author as string;
+    const recordDeleteResult = await db
+      .collection('algorithms')
+      .deleteOne({ uuid: uuid });
+
+    if (recordDeleteResult.deletedCount === 0) {
+      console.log(
+        `[LOG] Attempted record deletion of algorithm ${uuid} but no such record was found`,
+      );
+    }
+
+    const identifierDeleteResult = await db
+      .collection('users')
+      .updateOne(
+        { username: author },
+        {
+          $pull: {
+            algorithms: { uuid: uuid },
+          } as unknown as PullOperator<Document>,
+        },
+      );
+
+    if (identifierDeleteResult.modifiedCount === 0) {
+      console.log(
+        `[LOG] attempted deletion of algorithm id of ${uuid} for ${author} but failed`,
+      );
+    }
   },
 };
