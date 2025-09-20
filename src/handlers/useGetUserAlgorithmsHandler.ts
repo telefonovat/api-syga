@@ -3,12 +3,8 @@ import { sendResponse } from './sendResponse';
 import {
   ApiErrorResponse,
   GetUserAlgorithmsSuccessResponse,
-  SygaAlgorithmIdentifier,
 } from '@telefonovat/syga--contract';
-import {
-  connectToDatabase,
-  userDatabaseService,
-} from '#src/services/database';
+import { userDatabaseService } from '#src/services/database';
 
 type GetUserAlgorithmsHandler = (
   request: Request,

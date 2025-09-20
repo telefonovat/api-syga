@@ -41,6 +41,8 @@ export const userDatabaseService: UserDatabaseService = {
       );
       return [];
     }
+
+    //TODO: Better type validation
     const algorithms = user.algorithms ?? [];
 
     return algorithms;
@@ -97,6 +99,7 @@ export const userDatabaseService: UserDatabaseService = {
       slug: slug,
       code: algorithmParams.code,
       author: username,
+      isPublic: algorithmParams.isPublic,
       createdAtIso: now,
       lastUpdatedAtIso: now,
     };
