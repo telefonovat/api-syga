@@ -1,4 +1,8 @@
-import { SygaAlgorithmPublicData } from '@telefonovat/syga--contract';
+import {
+  SygaAlgorithmIdentifier,
+  SygaAlgorithmPublicData,
+  SygaAlgorithmUpdateParams,
+} from '@telefonovat/syga--contract';
 import { getDb } from './setup';
 import { Document, PullOperator } from 'mongodb';
 
@@ -6,6 +10,10 @@ interface AlgorithmDatabaseService {
   ownsAlgorithm(username: string, uuid: string): Promise<boolean>;
   isAlgorithmPublic(uuid: string): Promise<boolean>;
   getAlgorithmDetail(uuid: string): Promise<SygaAlgorithmPublicData>;
+  updateAlgorithm(
+    uuid: string,
+    updateParams: SygaAlgorithmUpdateParams,
+  ): Promise<void>;
   deleteAlgorithm(uuid: string): Promise<void>;
 }
 
@@ -54,6 +62,56 @@ export const algorithmDatabaseService: AlgorithmDatabaseService = {
       createdAtIso: algorithm.createdAtIso,
     };
     return publicView;
+  },
+  async updateAlgorithm(uuid, updateParams): Promise<void> {
+    const db = getDb();
+    const algorithm = await db
+      .collection('algorithms')
+      .findOne({ uuid: uuid });
+    if (!algorithm) {
+      console.log(`[LOG] No algorithm ${uuid} found`);
+      return;
+    }
+
+    const author = algorithm.author;
+    const recordUpdateResult = await db
+      .collection('algorithms')
+      .updateOne(
+        { uuid: uuid },
+        {
+          $set: { ...updateParams },
+        },
+      );
+    if (recordUpdateResult.modifiedCount === 0) {
+      console.log(
+        `[LOG] Attempted record update of algorithm ${uuid} but no such record was found`,
+      );
+      return;
+    }
+
+    if (updateParams.name !== undefined) {
+      const updatedIdentifier: SygaAlgorithmIdentifier = {
+        name: updateParams.name,
+        uuid: uuid,
+      };
+      const identifierUpdateResult = await db
+        .collection('users')
+        .updateOne(
+          { username: author, 'algorithms.uuid': uuid },
+          {
+            $set: {
+              'algorithms.$': updatedIdentifier,
+            },
+          },
+        );
+
+      if (identifierUpdateResult.modifiedCount === 0) {
+        console.log(
+          `[LOG] Attempted identifier update of algorithm ${uuid} but no such identifier was found`,
+        );
+        return;
+      }
+    }
   },
   async deleteAlgorithm(uuid): Promise<void> {
     const db = getDb();

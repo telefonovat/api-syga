@@ -5,6 +5,7 @@ import {
 import { request, Router } from 'express';
 import { validateAccessToken } from './authRouter';
 import { useGetAlgorithmDetailHandler } from '#src/handlers/algorithm/useGetAlgorithmDetailHandler';
+import { useUpdateAlgorithmHandler } from '#src/handlers/algorithm/useUpdateAlgorithmHandler';
 
 const algorithmDetailRouter = Router();
 
@@ -36,6 +37,18 @@ algorithmDetailRouter.delete(
     const uuid = request.params.uuid;
 
     const handle = useDeleteAlgorithmHandler(uuid, asker);
+    handle(request, response);
+  },
+);
+
+algorithmDetailRouter.patch(
+  '/:uuid',
+  validateAccessToken,
+  async (request, response) => {
+    const asker = response.locals.username;
+    const uuid = request.params.uuid;
+
+    const handle = useUpdateAlgorithmHandler(uuid, asker);
     handle(request, response);
   },
 );

@@ -19,7 +19,7 @@
     "zod": "^4.1.8"
   },
   "devDependencies": {
-    "@telefonovat/syga--contract": "^8.6.0",
+    "@telefonovat/syga--contract": "^8.8.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
