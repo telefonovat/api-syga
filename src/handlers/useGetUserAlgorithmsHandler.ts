@@ -33,11 +33,13 @@ export function useGetUserAlgorithmsHandler(
       return;
     }
 
+    const allAlgorithms =
+      await userDatabaseService.getAlgorithms(targetUsername);
     // If asker !== target, just show public algorithms
     const algorithms =
       askerUsername === targetUsername
-        ? await userDatabaseService.getAlgorithms(targetUsername)
-        : [];
+        ? allAlgorithms
+        : allAlgorithms.filter((alg) => alg.isPublic);
 
     const successResponse: GetUserAlgorithmsSuccessResponse = {
       success: true,

@@ -95,6 +95,7 @@ export const userDatabaseService: UserDatabaseService = {
     const algorithmIdentifier: SygaAlgorithmIdentifier = {
       uuid: algorithmUuid,
       name: algorithmParams.name,
+      isPublic: algorithmParams.isPublic,
     };
 
     const userUpdateResult = await db
