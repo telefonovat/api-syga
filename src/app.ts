@@ -1,11 +1,11 @@
 import express, { json } from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import { config } from './config';
 
 import { router } from './routes';
 import { validateConfig } from './startup';
-import { connect } from 'mongoose';
 import { connectToDatabase } from './services/database';
 
 validateConfig(config);
@@ -13,7 +13,13 @@ validateConfig(config);
 const app = express();
 
 app.use(json());
-app.use(cors());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: 'http://localhost:8080',
+    credentials: true,
+  }),
+);
 
 app.use(router);
 

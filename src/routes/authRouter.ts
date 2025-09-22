@@ -11,17 +11,16 @@ export const validateAccessToken = function (
   next: NextFunction,
 ) {
   try {
-    const authorizationHeader = request.get('Authorization');
-    if (authorizationHeader === undefined) {
+    const accessToken = request.cookies.access_token;
+    if (accessToken === undefined) {
       sendResponse(response, {
         statusCode: 400,
-        content: ['No authorization header'],
+        content: ['No access token defined'],
       });
       return;
     }
 
-    const token = authorizationHeader.split(' ')[1];
-    const tokenPayload = tokenService.verifyAccessToken(token);
+    const tokenPayload = tokenService.verifyAccessToken(accessToken);
 
     if (!tokenPayload) {
       sendResponse(response, {

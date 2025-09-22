@@ -10,6 +10,7 @@ import {
   tokenService,
 } from '#src/services/authentication';
 import { getErrorResponse } from './handleError';
+import { httpUrl } from 'zod';
 type AuthHandler = (
   request: Request,
   response: Response,
@@ -38,6 +39,27 @@ export function useAuthHandler(): AuthHandler {
             }),
           },
         };
+
+        response.cookie(
+          'refresh_token',
+          successResponse.payload.refreshToken,
+          {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',
+            maxAge: 60 * 60 * 24, // 24 hours
+          },
+        );
+        response.cookie(
+          'access_token',
+          successResponse.payload.accessToken,
+          {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',
+            maxAge: 60 * 60 * 24, // 24 hours
+          },
+        );
 
         sendResponse(response, {
           statusCode: 200,
