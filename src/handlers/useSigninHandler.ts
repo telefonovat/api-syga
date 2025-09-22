@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import {
   ApiErrorResponse,
-  AuthenticateSuccessResponse,
+  SigninSucessBody,
   AuthenticateRequestBodySchema,
 } from '@telefonovat/syga--contract';
 import { sendResponse } from './sendResponse';
@@ -10,13 +10,12 @@ import {
   tokenService,
 } from '#src/services/authentication';
 import { getErrorResponse } from './handleError';
-import { httpUrl } from 'zod';
-type AuthHandler = (
+type SigninHandler = (
   request: Request,
   response: Response,
 ) => Promise<void>;
 
-export function useAuthHandler(): AuthHandler {
+export function useSigninHandler(): SigninHandler {
   const handler = async (request: Request, response: Response) => {
     const body = request.body;
     try {
@@ -28,7 +27,7 @@ export function useAuthHandler(): AuthHandler {
           password: authRequestBody.password,
         })
       ) {
-        const successResponse: AuthenticateSuccessResponse = {
+        const successResponse: SigninSucessBody = {
           success: true,
           payload: {
             accessToken: tokenService.signAccessToken({

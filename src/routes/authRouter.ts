@@ -1,7 +1,14 @@
+import { useAuthHandler } from '#src/handlers/auth/useAuthHandler';
 import { sendResponse } from '#src/handlers/sendResponse';
-import { useAuthHandler } from '#src/handlers/useAuthHandler';
+import { useSigninHandler } from '#src/handlers/useSigninHandler';
 import { tokenService } from '#src/services/authentication';
-import { Request, Response, NextFunction, Router } from 'express';
+import {
+  Request,
+  Response,
+  NextFunction,
+  Router,
+  response,
+} from 'express';
 
 const authRouter = Router();
 
@@ -14,7 +21,7 @@ export const validateAccessToken = function (
     const accessToken = request.cookies.access_token;
     if (accessToken === undefined) {
       sendResponse(response, {
-        statusCode: 400,
+        statusCode: 401,
         content: ['No access token defined'],
       });
       return;
@@ -24,7 +31,7 @@ export const validateAccessToken = function (
 
     if (!tokenPayload) {
       sendResponse(response, {
-        statusCode: 400,
+        statusCode: 401,
         content: ['Token verification failed'],
       });
       return;
@@ -43,6 +50,11 @@ export const validateAccessToken = function (
 };
 
 authRouter.post('/signin', async (request, response) => {
+  const handle = useSigninHandler();
+  await handle(request, response);
+});
+
+authRouter.post('/auth', async (request, response) => {
   const handle = useAuthHandler();
   await handle(request, response);
 });
