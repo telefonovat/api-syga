@@ -1,4 +1,5 @@
-import { useAuthHandler } from '#src/handlers/auth/useAuthHandler';
+import { useAuthHandler } from '#src/handlers/auth';
+import { useRefreshTokenHandler } from '#src/handlers/auth/useRefreshTokenHandler';
 import { sendResponse } from '#src/handlers/sendResponse';
 import { useSigninHandler } from '#src/handlers/useSigninHandler';
 import { tokenService } from '#src/services/authentication';
@@ -56,6 +57,11 @@ authRouter.post('/signin', async (request, response) => {
 
 authRouter.post('/auth', async (request, response) => {
   const handle = useAuthHandler();
+  await handle(request, response);
+});
+
+authRouter.post('/refresh-token', async (request, response) => {
+  const handle = useRefreshTokenHandler();
   await handle(request, response);
 });
 

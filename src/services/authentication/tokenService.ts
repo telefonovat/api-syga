@@ -10,6 +10,7 @@ interface TokenService {
   signRefreshToken(payload: AuthPayload): string;
 
   verifyAccessToken(token: string): AuthPayload | undefined;
+  verifyRefreshToken(token: string): AuthPayload | undefined;
 }
 
 export const tokenService: TokenService = {
@@ -29,6 +30,16 @@ export const tokenService: TokenService = {
       return jwt.verify(
         token,
         authConfig.accessTokenSecret,
+      ) as AuthPayload;
+    } catch (e: any) {
+      return undefined;
+    }
+  },
+  verifyRefreshToken(token) {
+    try {
+      return jwt.verify(
+        token,
+        authConfig.refreshTokenSecret,
       ) as AuthPayload;
     } catch (e: any) {
       return undefined;
