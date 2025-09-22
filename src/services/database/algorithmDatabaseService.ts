@@ -5,6 +5,7 @@ import {
 } from '@telefonovat/syga--contract';
 import { getDb } from './setup';
 import { Document, PullOperator } from 'mongodb';
+import { databaseConfig } from './config';
 
 interface AlgorithmDatabaseService {
   ownsAlgorithm(username: string, uuid: string): Promise<boolean>;
@@ -21,7 +22,7 @@ export const algorithmDatabaseService: AlgorithmDatabaseService = {
   async ownsAlgorithm(username, uuid): Promise<boolean> {
     const db = getDb();
     const algorithm = await db
-      .collection('algorithms')
+      .collection(databaseConfig.ALGORITHMS_COLLECTION_NAME)
       .findOne({ uuid: uuid });
     if (!algorithm) {
       console.log(
@@ -42,7 +43,7 @@ export const algorithmDatabaseService: AlgorithmDatabaseService = {
   async getAlgorithmDetail(uuid): Promise<SygaAlgorithmPublicData> {
     const db = getDb();
     const algorithm = await db
-      .collection('algorithms')
+      .collection(databaseConfig.ALGORITHMS_COLLECTION_NAME)
       .findOne({ uuid: uuid });
 
     if (!algorithm) {
@@ -66,7 +67,7 @@ export const algorithmDatabaseService: AlgorithmDatabaseService = {
   async updateAlgorithm(uuid, updateParams): Promise<void> {
     const db = getDb();
     const algorithm = await db
-      .collection('algorithms')
+      .collection(databaseConfig.ALGORITHMS_COLLECTION_NAME)
       .findOne({ uuid: uuid });
     if (!algorithm) {
       console.log(`[LOG] No algorithm ${uuid} found`);
@@ -75,7 +76,7 @@ export const algorithmDatabaseService: AlgorithmDatabaseService = {
 
     const author = algorithm.author;
     const recordUpdateResult = await db
-      .collection('algorithms')
+      .collection(databaseConfig.ALGORITHMS_COLLECTION_NAME)
       .updateOne(
         { uuid: uuid },
         {
@@ -116,7 +117,7 @@ export const algorithmDatabaseService: AlgorithmDatabaseService = {
   async deleteAlgorithm(uuid): Promise<void> {
     const db = getDb();
     const algorithm = await db
-      .collection('algorithms')
+      .collection(databaseConfig.ALGORITHMS_COLLECTION_NAME)
       .findOne({ uuid: uuid });
     if (!algorithm) {
       console.log(`[LOG] No algorithm ${uuid} found`);
@@ -125,7 +126,7 @@ export const algorithmDatabaseService: AlgorithmDatabaseService = {
 
     const author = algorithm.author as string;
     const recordDeleteResult = await db
-      .collection('algorithms')
+      .collection(databaseConfig.ALGORITHMS_COLLECTION_NAME)
       .deleteOne({ uuid: uuid });
 
     if (recordDeleteResult.deletedCount === 0) {
@@ -135,7 +136,7 @@ export const algorithmDatabaseService: AlgorithmDatabaseService = {
     }
 
     const identifierDeleteResult = await db
-      .collection('users')
+      .collection(databaseConfig.USERS_COLLECTION_NAME)
       .updateOne(
         { username: author },
         {

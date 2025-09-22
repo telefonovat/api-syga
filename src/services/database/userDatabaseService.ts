@@ -6,6 +6,7 @@ import {
 import { getDb } from './setup';
 import { PushOperator } from 'mongodb';
 import { v4 as uuidv4 } from 'uuid';
+import { databaseConfig } from './config';
 
 interface UserDatabaseService {
   userExists(username: string): Promise<boolean>;
@@ -23,13 +24,13 @@ interface UserDatabaseService {
 export const userDatabaseService: UserDatabaseService = {
   async userExists(username: string): Promise<boolean> {
     const user = await getDb()
-      .collection('users')
+      .collection(databaseConfig.USERS_COLLECTION_NAME)
       .findOne({ username });
     return user !== null;
   },
   async getAlgorithms(username): Promise<SygaAlgorithmIdentifier[]> {
     const user = await getDb()
-      .collection('users')
+      .collection(databaseConfig.USERS_COLLECTION_NAME)
       .findOne(
         { username },
         { projection: { algorithms: 1, _id: 0 } },
@@ -69,14 +70,17 @@ export const userDatabaseService: UserDatabaseService = {
       uuid: algorithmUuid,
       name: algorithmParams.name,
     };
-    const userUpdateResult = await db.collection('users').updateOne(
-      { username },
-      {
-        $push: {
-          algorithms: algorithmIdentifier,
-        } as unknown as PushOperator<Document>,
-      },
-    );
+
+    const userUpdateResult = await db
+      .collection(databaseConfig.USERS_COLLECTION_NAME)
+      .updateOne(
+        { username },
+        {
+          $push: {
+            algorithms: algorithmIdentifier,
+          } as unknown as PushOperator<Document>,
+        },
+      );
 
     if (userUpdateResult.matchedCount === 0) {
       console.warn(
@@ -105,7 +109,7 @@ export const userDatabaseService: UserDatabaseService = {
     };
 
     const algorithmLookUpResult = await db
-      .collection('algorithms')
+      .collection(databaseConfig.ALGORITHMS_COLLECTION_NAME)
       .findOne({ uuid: algorithmIdentifier.uuid });
     if (algorithmLookUpResult) {
       console.warn(
@@ -115,7 +119,7 @@ export const userDatabaseService: UserDatabaseService = {
     }
 
     const _algorithmAddResult = await db
-      .collection('algorithms')
+      .collection(databaseConfig.ALGORITHMS_COLLECTION_NAME)
       .insertOne(algorithmRecord);
 
     return algorithmIdentifier;
