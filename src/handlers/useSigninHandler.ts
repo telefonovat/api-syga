@@ -22,7 +22,7 @@ export function useSigninHandler(): SigninHandler {
       const authRequestBody =
         AuthenticateRequestBodySchema.parse(body);
       if (
-        authService.signInUser({
+        await authService.isSignInValid({
           username: authRequestBody.username,
           password: authRequestBody.password,
         })

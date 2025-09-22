@@ -1,3 +1,5 @@
+import { userDatabaseService } from '../database';
+
 interface SignInPayload {
   username: string;
   password: string;
@@ -10,19 +12,20 @@ interface RegisterPayload {
 }
 
 export interface AuthService {
-  signInUser(payload: SignInPayload): boolean;
+  isSignInValid(payload: SignInPayload): Promise<boolean>;
   registerUser(payload: RegisterPayload): void;
 }
 
 export const authService: AuthService = {
-  signInUser(payload) {
-    if (
-      payload.username === 'phone' &&
-      payload.password === 'phoneisawesome'
-    ) {
+  async isSignInValid({ username, password }) {
+    const user = await userDatabaseService.getUser(username);
+    if (username === user.username && password === user.password) {
+      console.log(
+        `[LOG] user ${username} signed in successfully at ${new Date().toISOString()}`,
+      );
       return true;
     }
     return false;
   },
-  registerUser(payload) {},
+  registerUser({ username, password }) {},
 };

@@ -2,14 +2,18 @@ import {
   SygaAlgorithmIdentifier,
   SygaAlgorithmCreateParams,
   SygaAlgorithm,
+  UserSchema,
+  User,
 } from '@telefonovat/syga--contract';
 import { getDb } from './setup';
 import { PushOperator } from 'mongodb';
 import { v4 as uuidv4 } from 'uuid';
 import { databaseConfig } from './config';
+import z from 'zod';
 
 interface UserDatabaseService {
   userExists(username: string): Promise<boolean>;
+  getUser(username: string): Promise<User>;
   getAlgorithms(username: string): Promise<SygaAlgorithmIdentifier[]>;
   addAlgorithms(
     username: string,
@@ -27,6 +31,28 @@ export const userDatabaseService: UserDatabaseService = {
       .collection(databaseConfig.USERS_COLLECTION_NAME)
       .findOne({ username });
     return user !== null;
+  },
+  async getUser(username: string): Promise<User> {
+    const user = await getDb()
+      .collection(databaseConfig.USERS_COLLECTION_NAME)
+      .findOne({ username });
+    if (user === null) {
+      console.log(`[LOG] Failed to find user ${username}`);
+      throw new Error(`Unable to find user ${username}`);
+    }
+
+    try {
+      const validatedUser = UserSchema.parse(user);
+      return validatedUser;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        console.log(
+          `[LOG] Zod validation of user object ${username} from DB failed`,
+        );
+      }
+
+      throw error;
+    }
   },
   async getAlgorithms(username): Promise<SygaAlgorithmIdentifier[]> {
     const user = await getDb()
