@@ -3,6 +3,7 @@ import {
   ApiErrorResponse,
   SigninSucessBody,
   AuthenticateRequestBodySchema,
+  AuthenticationSuccessBody,
 } from '@telefonovat/syga--contract';
 import { sendResponse } from './sendResponse';
 import {
@@ -27,21 +28,18 @@ export function useSigninHandler(): SigninHandler {
           password: authRequestBody.password,
         })
       ) {
-        const successResponse: SigninSucessBody = {
+        const successResponse: AuthenticationSuccessBody = {
           success: true,
           payload: {
-            accessToken: tokenService.signAccessToken({
-              username: body.username,
-            }),
-            refreshToken: tokenService.signRefreshToken({
-              username: body.username,
-            }),
+            username: authRequestBody.username,
           },
         };
 
         response.cookie(
           'refresh_token',
-          successResponse.payload.refreshToken,
+          tokenService.signRefreshToken({
+            username: authRequestBody.username,
+          }),
           {
             httpOnly: true,
             secure: true,
@@ -51,7 +49,9 @@ export function useSigninHandler(): SigninHandler {
         );
         response.cookie(
           'access_token',
-          successResponse.payload.accessToken,
+          tokenService.signAccessToken({
+            username: authRequestBody.username,
+          }),
           {
             httpOnly: true,
             secure: true,
