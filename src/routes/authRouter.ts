@@ -3,13 +3,7 @@ import { useRefreshTokenHandler } from '#src/handlers/auth/useRefreshTokenHandle
 import { sendResponse } from '#src/handlers/sendResponse';
 import { useSigninHandler } from '#src/handlers/useSigninHandler';
 import { tokenService } from '#src/services/authentication';
-import {
-  Request,
-  Response,
-  NextFunction,
-  Router,
-  response,
-} from 'express';
+import { Request, Response, NextFunction, Router } from 'express';
 
 const authRouter = Router();
 
@@ -51,6 +45,7 @@ export const validateAccessToken = function (
 };
 
 authRouter.post('/signin', async (request, response) => {
+  console.log('[LOG] Alpha');
   const handle = useSigninHandler();
   await handle(request, response);
 });

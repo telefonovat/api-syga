@@ -11,7 +11,7 @@ function loadAuthConfig() {
   return {
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
     refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
-    accessTokenExpiresIn: '10m' as SignOptions['expiresIn'],
+    accessTokenExpiresIn: '1m' as SignOptions['expiresIn'],
     refreshTokenExpiresIn: '1d' as SignOptions['expiresIn'],
   };
 }
