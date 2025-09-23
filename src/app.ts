@@ -17,10 +17,10 @@ const app = express();
 
 const corsOptions = {
   //TODO: Brittle. Fix it!
-  origin: 'http://localhost:8123',
+  origin: 'http://localhost:8080',
   credentials: true,
   allowedHeaders: ['Content-Type'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 };
 
 app.use(json());
