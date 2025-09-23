@@ -91,12 +91,14 @@ export const algorithmDatabaseService: AlgorithmDatabaseService = {
     }
 
     if (updateParams.name !== undefined) {
+      console.log('[LOG] Updating algorithm identifiers as well');
       const updatedIdentifier: SygaAlgorithmIdentifier = {
+        isPublic: updateParams.isPublic ?? algorithm.isPublic,
         name: updateParams.name,
         uuid: uuid,
       };
       const identifierUpdateResult = await db
-        .collection('users')
+        .collection(databaseConfig.USERS_COLLECTION_NAME)
         .updateOne(
           { username: author, 'algorithms.uuid': uuid },
           {
