@@ -37,7 +37,7 @@ const cert = fs.readFileSync(
 );
 
 async function start() {
-  await connectToDatabase();
+  // await connectToDatabase();
   app.listen(config.PORT, () => {
     console.log(`[LOG] SYGA API listening on port ${config.PORT}`);
   });
