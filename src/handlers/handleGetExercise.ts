@@ -20,6 +20,9 @@ export async function handleGetExercise(
     const algorithmRes = await fetch(
       `${prefix}/${exercisePath}/algorithm.py`,
     );
+    const markdownRes = await fetch(
+      `${prefix}/${exercisePath}/text.md`,
+    );
 
     if (!optionsRes) {
       throw new Error('Options json not found');
@@ -27,21 +30,23 @@ export async function handleGetExercise(
     if (!algorithmRes) {
       throw new Error('Algorithm file not found');
     }
+    if (!markdownRes) {
+      throw new Error('Markdown text not found');
+    }
 
     const options = await optionsRes.json();
     const algorithm = await algorithmRes.text();
+    const markdown = await markdownRes.text();
 
     const responseBody: GetIFExerciseSuccessBody = {
       options,
       algorithm,
+      markdowntext: markdown,
     };
 
     sendResponse(response, {
       statusCode: 200,
-      content: {
-        options,
-        algorithm,
-      },
+      content: responseBody,
     });
   } catch (error) {}
 }
