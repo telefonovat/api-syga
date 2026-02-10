@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import { sendResponse } from './sendResponse';
-import { GetIFExerciseSuccessBody } from '@telefonovat/syga--contract';
+import {
+  GetIFExerciseSuccessBody,
+  IFOptions,
+} from '@telefonovat/syga--contract';
 
 interface GetExerciseOptions {
   exercisePath: string;
@@ -34,7 +37,7 @@ export async function handleGetExercise(
       throw new Error('Markdown text not found');
     }
 
-    const options = await optionsRes.json();
+    const options = (await optionsRes.json()) as IFOptions;
     const algorithm = await algorithmRes.text();
     const markdown = await markdownRes.text();
 

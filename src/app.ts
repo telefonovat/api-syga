@@ -1,17 +1,9 @@
 import express, { json } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import https from 'https';
-import fs from 'fs';
 
-import { config } from './config';
-
+import { config } from './config/index';
 import { router } from './routes';
-import { validateConfig } from './startup';
-import { connectToDatabase } from './services/database';
-import path from 'path';
-
-validateConfig(config);
 
 const app = express();
 
@@ -28,13 +20,6 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 
 app.use(router);
-
-const key = fs.readFileSync(
-  path.join(__dirname, '../ssl_cert/api-syga-key.pem'),
-);
-const cert = fs.readFileSync(
-  path.join(__dirname, '../ssl_cert/api-syga.pem'),
-);
 
 async function start() {
   // await connectToDatabase();

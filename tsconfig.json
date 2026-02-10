@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    /* Language and Environment */
-    "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "target": "es2022",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "module": "nodenext",                                /* Specify what module code is generated. */
+    // "moduleResolution": "nodenext",                     /* Specify how TypeScript looks up a file from a given module specifier. */
+    "rootDir" : "src",
+    "outDir": "dist",
+    "strict": true,
 
     /* Modules */
-    "module": "esnext",                                /* Specify what module code is generated. */
-    "moduleResolution": "node",                     /* Specify how TypeScript looks up a file from a given module specifier. */
     "baseUrl": ".",                                  /* Specify the base directory to resolve non-relative module names. */
     "paths": {
       "#src/*" : ["src/*"],
@@ -14,11 +16,11 @@
     /* Interop Constraints */
     "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables '' for type compatibility. */
     "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
-
-    /* Type Checking */
-    "strict": true,                                      /* Enable all strict type-checking options. */
+    "isolatedModules": true,
+    "moduleDetection": "force",
 
     /* Completeness */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
+    "lib": ["es2022"]
   }
 }

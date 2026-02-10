@@ -8,7 +8,6 @@ import {
   GraphEdge,
   GraphType,
   GraphVertex,
-  GraphVertexShape,
   LegacyComponent,
   LegacyFrame,
   LegacyVisualizationResult,
@@ -131,7 +130,7 @@ function toEdgeShapes(
  */
 export function fromLegacyVisualizationResult(
   input: LegacyVisualizationResult,
-): ExecuteAlgorithmSuccessResponse['result'] {
+): ExecuteAlgorithmSuccessResponse['payload'] {
   try {
     //Validation of top-level fields
     if (!isLegacyVisualizationResult(input)) {
@@ -196,7 +195,7 @@ export function fromLegacyVisualizationResult(
       frames.push(frame);
     }
 
-    const result: ExecuteAlgorithmSuccessResponse['result'] = {
+    const result: ExecuteAlgorithmSuccessResponse['payload'] = {
       timestamp: input.timestamp,
       response: input.res,
       ...(input.err && {

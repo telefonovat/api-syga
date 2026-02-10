@@ -4,10 +4,7 @@
  */
 
 import express, { NextFunction, Request, Response } from 'express';
-import {
-  algorithmDetailController,
-  algorithmExecuteController,
-} from '#src/controllers/algorithm';
+import { algorithmExecuteController } from '#src/controllers/algorithm';
 import jwt from 'jsonwebtoken';
 import { config } from '#src/config';
 
@@ -53,28 +50,3 @@ const checkForJWT = (
     return;
   }
 };
-
-/*
- * @deprecated
- */
-router.get(
-  '/detail/:uuid',
-  checkForJWT,
-  algorithmDetailController.handleGetRequest,
-);
-
-/*
- * @deprecated
- */
-router.put('/detail/:uuid', checkForJWT, (request, response) =>
-  algorithmDetailController.handleUpdateRequest(request, response),
-);
-
-/*
- * @deprecated
- */
-router.delete('/detail/:uuid', checkForJWT, (request, response) =>
-  algorithmDetailController.handleDeleteRequest(request, response),
-);
-
-export { router };
