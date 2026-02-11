@@ -33,7 +33,7 @@ async function runEngine(code: string): Promise<EngineOutput> {
 }
 
 async function runAlgorithm(code: string) {
-  const response = await fetch('http://engine:5000/v1/run', {
+  const response = await fetch('http://nginx:80/engine/v1/run', {
     method: 'POST',
     body: JSON.stringify({ code }),
     headers: {
