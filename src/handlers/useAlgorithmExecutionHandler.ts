@@ -21,24 +21,29 @@ interface EngineOutput {
 }
 
 async function runEngine(code: string): Promise<EngineOutput> {
-  const shellCommand = `echo '${JSON.stringify({ code }).replace(/'/g, "'\\''")}' | docker container run --rm -i syga/engine`;
+  // const shellCommand = `echo '${JSON.stringify({ code }).replace(/'/g, "'\\''")}' | docker container run --rm -i syga/engine`;
+  const echoCommand = `echo ${JSON.stringify(JSON.stringify({ code }))}`;
+  // console.log(echoCommand);
+  // const shellCommand = `${echoCommand} | docker container run --rm -i syga/engine`;
+  const shellCommand = `echo "{\"code\":\"print('Hello');\"}" | docker container run --rm -i syga/engine `;
+  console.log(shellCommand);
   const { stdout, stderr } = await exec(shellCommand, {});
 
   return { stdout, stderr };
 }
 
 async function runAlgorithm(code: string) {
-  const { stdout } = await runEngine(code);
+  const response = await fetch('http://engine:5000/v1/run', {
+    method: 'POST',
+    body: JSON.stringify({ code }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const stdout = (await response.json()) as any;
 
-  //Legacy output format by previous developer
-  const legacyOutput = safeJSONParse<LegacyVisualizationResult>(
-    stdout,
-  ) as LegacyVisualizationResult;
-  if (legacyOutput !== undefined) {
-    return fromLegacyVisualizationResult(legacyOutput);
-  } else {
-    throw new Error('Backend sent gibberish');
-  }
+  // NOTE: Unsafe
+  return fromLegacyVisualizationResult(stdout);
 }
 
 export function useAlgorithmExecutionHandler(): AlgorithmExecutionHandler {

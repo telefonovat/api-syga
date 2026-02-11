@@ -17,7 +17,7 @@ export function getErrorResponse(error: any): {
     const statusCode = 400;
     const body: ApiErrorResponse = {
       success: false,
-      errorMessages: ['An unexpected error occured'],
+      errorMessages: ['An unexpected error occured', error],
     };
     return { statusCode, body };
   }

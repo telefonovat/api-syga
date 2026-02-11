@@ -7,4 +7,8 @@ const router = express.Router();
 router.use('/algorithm', algorithmDetailRouter);
 router.use('/readymade', githubAlgorithmsRouter);
 
+router.get('/v1/ping', (_, response) =>
+  response.send('Ping succeeded.'),
+);
+
 export { router };
