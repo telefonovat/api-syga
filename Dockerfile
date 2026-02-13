@@ -1,8 +1,8 @@
 FROM node:20-alpine AS builder
 
-ARG PORT
+ARG API_PORT
 
-ENV PORT=$PORT
+ENV PORT=$API_PORT
 
 RUN corepack enable
 

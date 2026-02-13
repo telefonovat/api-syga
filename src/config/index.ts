@@ -1,5 +1,5 @@
 const config = {
-  PORT: process.env.PORT || 8100,
+  PORT: process.env.PORT || 8200,
   ENGINE_IMAGE: process.env.ENGINE_IMAGE || 'syga/engine',
   DB_NAME: process.env.DB_NAME || 'syga-test',
 };
