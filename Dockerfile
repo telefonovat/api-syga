@@ -1,8 +1,6 @@
 FROM node:20-alpine AS builder
 
-ARG API_PORT
-
-ENV PORT=$API_PORT
+ENV PORT=8200
 
 RUN corepack enable
 
@@ -19,5 +17,7 @@ RUN --mount=type=secret,id=api_github_token \
     rm .npmrc
 
 COPY . .
+
+EXPOSE $PORT
 
 CMD ["pnpm", "build"]
