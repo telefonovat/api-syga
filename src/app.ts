@@ -22,15 +22,9 @@ app.use(cors(corsOptions));
 app.use(router);
 
 async function start() {
-  // await connectToDatabase();
   app.listen(config.PORT, () => {
     console.log(`[LOG] SYGA API listening on port ${config.PORT}`);
   });
-  // https.createServer({ key, cert }, app).listen(config.PORT, () => {
-  //   console.log(
-  //     `[LOG] Backend running at https://localhost:${config.PORT}`,
-  //   );
-  // });
 }
 
 start().catch((error) => {

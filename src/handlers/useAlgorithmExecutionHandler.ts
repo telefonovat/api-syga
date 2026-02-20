@@ -42,6 +42,12 @@ async function runAlgorithm(code: string) {
   });
   const stdout = (await response.json()) as any;
 
+  if (stdout.res === 'error') {
+    throw new Error(
+      stdout.err ??
+        'An unknown error occured while trying to execute code.',
+    );
+  }
   // NOTE: Unsafe
   return fromLegacyVisualizationResult(stdout);
 }
@@ -67,8 +73,13 @@ export function useAlgorithmExecutionHandler(): AlgorithmExecutionHandler {
         content: successResponse,
       });
     } catch (error) {
-      const { statusCode, body } = getErrorResponse(error);
-      sendResponse(response, { statusCode, content: body });
+      if (error instanceof Error) {
+        const payload = { errorMessage: error.message };
+        response.status(400).send({ success: false, payload });
+      } else {
+        const { statusCode, body } = getErrorResponse(error);
+        sendResponse(response, { statusCode, content: body });
+      }
     }
   };
 
