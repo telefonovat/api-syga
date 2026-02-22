@@ -23,7 +23,7 @@ class BackendAdaptor {
 
       //Validation of each frame
       const frames: Frame[] = [];
-      for (const legacyFrame of input.frames) {
+      for (const legacyFrame of validatedInput.frames) {
         if (!isLegacyFrame(legacyFrame)) {
           console.warn(
             'Invalid fields in visualization frame from engine',

@@ -5,6 +5,7 @@
   "main": "src/app.ts",
   "scripts": {
     "dev:start": "tsx watch src/app.ts",
+    "verify": "tsup src/app.ts --format esm --platform node",
     "build": "tsup src/app.ts --format esm --platform node && node dist/app.mjs"
   },
   "author": "",

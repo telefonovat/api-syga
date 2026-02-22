@@ -156,10 +156,12 @@ export function fromLegacyVisualizationResult(
 
         const component: GraphComponent = {
           type: toGraphType(legacyComponent.type),
-          vertices: legacyComponent.nodes.map((v) =>
+          vertices: legacyComponent.nodes.map((v: any) =>
             toGraphVertex(v),
           ),
-          edges: legacyComponent.edges.map((e) => toGraphEdge(e)),
+          edges: legacyComponent.edges.map((e: any) =>
+            toGraphEdge(e),
+          ),
           style: {
             // TODO: Styles
             vertexColors: toVertexColors(
