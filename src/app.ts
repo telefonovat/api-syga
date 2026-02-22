@@ -2,8 +2,8 @@ import express, { json } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-import { config } from './config/index';
-import { router } from './routes';
+import { config } from './config/index.js';
+import { router } from './routes/index.js';
 
 const app = express();
 

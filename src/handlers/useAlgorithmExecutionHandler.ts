@@ -3,10 +3,10 @@ import {
   ExecuteAlgorithmRequestBody,
 } from '@telefonovat/syga--contract';
 import { Request, Response } from 'express';
-import { sendResponse } from './sendResponse';
-import { ExecuteAlgorithmSuccessResponse } from '@telefonovat/syga--contract/response/results';
-import { fromLegacyVisualizationResult } from '#src/services/util/formatAdapters';
-import { getErrorResponse } from './handleError';
+import { sendResponse } from './sendResponse.js';
+import { ExecuteAlgorithmSuccessResponse } from '@telefonovat/syga--contract';
+import { fromLegacyVisualizationResult } from '#src/services/util/formatAdapters.js';
+import { getErrorResponse } from './handleError.js';
 type AlgorithmExecutionHandler = (
   request: Request,
   response: Response,

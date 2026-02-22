@@ -1,5 +1,4 @@
-import { algorithmDetailRouter } from './algorithmDetailRouter';
-import { githubAlgorithmsRouter } from './githubAlgorithmsRouter';
+import { algorithmDetailRouter } from './algorithmDetailRouter.js';
 import { fetchCodeFromGithub } from '#src/services/fetchSources/fetchCodeFromGitHub.js';
 
 import express from 'express';
@@ -7,7 +6,6 @@ import express from 'express';
 const router = express.Router();
 
 router.use('/algorithm', algorithmDetailRouter);
-router.use('/readymade', githubAlgorithmsRouter);
 
 router.get(
   '/v2/algorithm/:path(*)',

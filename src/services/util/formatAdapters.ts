@@ -16,8 +16,8 @@ import {
   NodeLabels,
   NodeShapes,
 } from '@telefonovat/syga--contract';
-import { VisualizationFrame } from '@telefonovat/syga--contract/domain/visualization/VisualizationFrame';
-import { ExecuteAlgorithmSuccessResponse } from '@telefonovat/syga--contract/response/results';
+import { VisualizationFrame } from '@telefonovat/syga--contract';
+import { ExecuteAlgorithmSuccessResponse } from '@telefonovat/syga--contract';
 
 function isLegacyFrame(object: any): object is LegacyFrame {
   return (

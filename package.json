@@ -5,9 +5,10 @@
   "main": "src/app.ts",
   "scripts": {
     "dev:start": "tsx watch src/app.ts",
-    "verify": "tsup src/app.ts --format esm --platform node",
+    "verify": "tsc --noEmit",
     "build": "tsup src/app.ts --format esm --platform node && node dist/app.mjs"
   },
+  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -21,7 +22,7 @@
     "zod": "^4.1.8"
   },
   "devDependencies": {
-    "@telefonovat/syga--contract": "^9.6.3",
+    "@telefonovat/syga--contract": "^10.0.0",
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
