@@ -20,4 +20,4 @@ COPY . .
 
 EXPOSE $PORT
 
-CMD ["pnpm", "build"]
+CMD ["pnpm", "dev:start"]

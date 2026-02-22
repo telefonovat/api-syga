@@ -8,4 +8,5 @@ const stream = createStream({
 });
 
 const logger = pino({ name: config.SEQ_NAME }, stream);
+
 export { logger };
