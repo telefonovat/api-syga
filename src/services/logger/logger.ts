@@ -1,16 +1,11 @@
+import { config } from '#src/config/index.js';
 import { pino } from 'pino';
+import { createStream } from 'pino-seq';
 
-(async () => {
-  const pinoSeq = require('pino-seq');
-  console.log('Done');
-})();
-// Create a stream to Seq
-// const stream = createStream({
-//   serverUrl: 'http://localhost:5341',
-//   apiKey: 'your-api-key', // optional
-// });
-//
-// // Create a Pino logger
-// const logger = pino({ name: 'pino-seq example' }, stream);
+const stream = createStream({
+  serverUrl: config.SEQ_SERVER_URL,
+  apiKey: config.SEQ_SERVER_API_KEY,
+});
 
+const logger = pino({ name: config.SEQ_NAME }, stream);
 export { logger };

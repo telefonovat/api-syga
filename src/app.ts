@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 
 import { config } from './config/index.js';
 import { router } from './routes/index.js';
+import { logger } from './services/logger/logger.js';
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(router);
 async function start() {
   app.listen(config.PORT, () => {
     console.log(`[LOG] SYGA API listening on port ${config.PORT}`);
+    logger.info('SYGA API started');
   });
 }
 
