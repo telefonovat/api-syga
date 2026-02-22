@@ -1,36 +1,16 @@
 import {
-  LegacyVisualizationResult,
   ExecuteAlgorithmRequestBodySchema,
   ExecuteAlgorithmRequestBody,
 } from '@telefonovat/syga--contract';
 import { Request, Response } from 'express';
 import { sendResponse } from './sendResponse';
-import { exec } from '#src/services/util/exec';
 import { ExecuteAlgorithmSuccessResponse } from '@telefonovat/syga--contract/response/results';
-import { safeJSONParse } from '#src/services/util';
 import { fromLegacyVisualizationResult } from '#src/services/util/formatAdapters';
 import { getErrorResponse } from './handleError';
 type AlgorithmExecutionHandler = (
   request: Request,
   response: Response,
 ) => Promise<void>;
-
-interface EngineOutput {
-  stdout: string;
-  stderr: string;
-}
-
-async function runEngine(code: string): Promise<EngineOutput> {
-  // const shellCommand = `echo '${JSON.stringify({ code }).replace(/'/g, "'\\''")}' | docker container run --rm -i syga/engine`;
-  const echoCommand = `echo ${JSON.stringify(JSON.stringify({ code }))}`;
-  // console.log(echoCommand);
-  // const shellCommand = `${echoCommand} | docker container run --rm -i syga/engine`;
-  const shellCommand = `echo "{\"code\":\"print('Hello');\"}" | docker container run --rm -i syga/engine `;
-  console.log(shellCommand);
-  const { stdout, stderr } = await exec(shellCommand, {});
-
-  return { stdout, stderr };
-}
 
 async function runAlgorithm(code: string) {
   const response = await fetch('http://nginx:80/engine/v1/run', {
