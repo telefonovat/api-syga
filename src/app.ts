@@ -24,8 +24,7 @@ app.use(router);
 
 async function start() {
   app.listen(config.PORT, () => {
-    console.log(`[LOG] SYGA API listening on port ${config.PORT}`);
-    logger.info(`SYGA API started. Mode:${config.SEQ_NAME}`);
+    logger.info(`SYGA API is listening on port ${config.PORT}`);
   });
 }
 
