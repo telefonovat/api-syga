@@ -1,26 +1,17 @@
-# api-syga
+# SYGA(See Your Graph Algorithm) API
 
-## REST API endpoints
+API abstraction separating orchestration of backend operations from the interface the webapp interacts with.
 
-### users/register
+## How to run
 
-Accepts username, email, password
 
-Returns status code and message
+### Locally
 
-### users/login
+Firstly, install dependencies through `pnpm install`
 
-Accepts username and password
+Run `pnpm dev:start` to expose the API through `http://localhost:8300`. Note that this is only for testing API endpoints and any serious fullstack testing should be done through the `syga-deploy` repository.
 
-returns status code and JWT wrapped in JSON
+### Docker image
 
-### algorithm/execute
+A production image of the webapp can be downloaded from [Dockerhub](https://hub.docker.com/repository/docker/kheltan/syga-prod-api).
 
-Accepts python code
-Returns visualization frames in JSON
-
-### users/:username/codes
-
-#### POST
-Needs authentication. 
-Adds the code to the user's selection
